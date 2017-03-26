@@ -9,8 +9,7 @@ Enemy::Enemy(const LoaderParams* pParams) : SDLGameObject(pParams){
 }
 
 void Enemy::update(){
-	m_y += 1;
-	m_x += 1;
+	m_position += Vector2D(1, 1).norm();
 	m_currentFrame = int(((SDL_GetTicks() / 100) % 6));
 }
 
