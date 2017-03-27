@@ -15,6 +15,9 @@ public:
 	void update();
 	void clean();
 
+private:
+	void handleInput();
+
 };
 
 #endif

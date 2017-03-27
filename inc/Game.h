@@ -19,7 +19,6 @@ public:
 	Game(Game const&) = delete;
 	void operator=(Game const&) = delete;
 
-	// simply set the running variable to true
 	bool init(const char*, int, int, int, int, bool);
 
 	void render();
@@ -27,12 +26,12 @@ public:
 	void handleEvents();
 	void clean();
 	void draw();
+	void quit();
 
 	SDL_Renderer* getRenderer(){
 		return m_pRenderer;
 	}
 
-	// a function to access the private running variable
 	bool running() { return m_bRunning; }
 
 private:
