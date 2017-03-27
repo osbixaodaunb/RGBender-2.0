@@ -16,9 +16,10 @@ void Player::draw(){
 }
 
 void Player::update(){
-	m_position -= Vector2D(1, 0);
+	m_accelaration = Vector2D(0.01, 0);
 	m_currentFrame = int(((SDL_GetTicks() / 100) % 6));
 
+	SDLGameObject::update();
 }
 
 void Player::clean(){
