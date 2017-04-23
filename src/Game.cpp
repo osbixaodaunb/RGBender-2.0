@@ -3,6 +3,9 @@
 #include "Enemy.h"
 #include "LoaderParams.h"
 #include "InputHandler.h"
+#include "GameStateMachine.h"
+#include "MenuState.h"
+#include "PlayState.h"
 
 #include <iostream>
 #include <vector>
@@ -61,6 +64,9 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	// everything inited successfully, start the main loop
 	m_bRunning = true;
 
+	m_pGameStateMachine = new GameStateMachine();
+	m_pGameStateMachine->changeState(new MenuState);
+
 	return true;
 }
 
@@ -74,6 +80,7 @@ void Game::render(){
 	// clear the renderer to the draw color
 	SDL_RenderClear(m_pRenderer);
 
+	m_pGameStateMachine->render();
 	draw();
 
 	// draw to screen
@@ -83,6 +90,8 @@ void Game::render(){
 void Game::update(){
 	m_currentFrame = int(SDL_GetTicks()/100 % 6);
 
+	m_pGameStateMachine->update();
+
 	for(GameObject* gameObject : m_gameObjects){
 		gameObject->update();
 	}
@@ -91,6 +100,10 @@ void Game::update(){
 
 void Game::handleEvents(){
 	InputHandler::Instance().update();
+
+	if(InputHandler::Instance().isKeyDown(SDL_SCANCODE_LEFT)){
+		m_pGameStateMachine->changeState(new PlayState());
+	}
 }
 
 void Game::clean(){

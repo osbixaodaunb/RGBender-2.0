@@ -3,6 +3,7 @@
 
 #include "TextureManager.h"
 #include "GameObject.h"
+#include "GameStateMachine.h"
 
 #include <SDL2/SDL.h>
 #include <vector>
@@ -48,6 +49,8 @@ private:
 
 	int m_currentFrame;
 	bool m_bRunning;
+
+	GameStateMachine *m_pGameStateMachine;
 };
 
 #endif
