@@ -59,6 +59,20 @@ public:
 		return *this;
 	}
 
+	Vector2D operator =(Vector2D* other){
+		setX(other->getX());
+		setY(other->getY());
+
+		return *this;
+	}
+
+	Vector2D operator =(Vector2D other){
+		setX(other.getX());
+		setY(other.getY());
+
+		return *this;
+	}
+
 	Vector2D norm(){
 		float l = length();
 		if(l > 0){

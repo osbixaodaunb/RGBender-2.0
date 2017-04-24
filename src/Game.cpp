@@ -56,11 +56,6 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	cout << "Init success" << endl;
 	
-	m_gameObjects.push_back(new Player(new LoaderParams(100, 100, 128, 82, "cat")));
-	m_gameObjects.push_back(new Enemy(new LoaderParams(300, 300, 128, 82, "cat")));
-
-	TheTextureManager::Instance().load("assets/anim.png", "cat", m_pRenderer);
-	
 	// everything inited successfully, start the main loop
 	m_bRunning = true;
 

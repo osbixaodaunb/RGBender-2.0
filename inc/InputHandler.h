@@ -45,6 +45,9 @@ public:
 	}
 
 	bool isKeyDown(SDL_Scancode key);
+	bool getMouseButtonState(mouse_buttons p_button){
+		return m_mouseButtonStates[p_button];
+	}
 
 private:
 	InputHandler();

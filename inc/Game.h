@@ -34,6 +34,9 @@ public:
 	}
 
 	bool running() { return m_bRunning; }
+	GameStateMachine* getStateMachine(){
+		return m_pGameStateMachine;
+	}
 
 private:
 	Game() {}

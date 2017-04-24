@@ -18,6 +18,10 @@ public:
 	}
 	TextureManager(TextureManager const&) = delete;
 	void operator=(TextureManager const&) = delete;
+
+	void clearFromTextureMap(std::string id){
+		m_textureMap.erase(id);
+	}
 private:
 	std::map<std::string, SDL_Texture*> m_textureMap;
 	TextureManager() { }
