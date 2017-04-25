@@ -169,3 +169,9 @@ void InputHandler::onMouseMove(SDL_Event& event){
 		m_mousePosition.setY(event.motion.y);
 	}
 }
+
+void InputHandler::reset(){
+	for(auto mouseButton : m_mouseButtonStates){
+		mouseButton = false;
+	}
+}

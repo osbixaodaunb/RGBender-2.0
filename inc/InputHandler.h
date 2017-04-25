@@ -48,6 +48,7 @@ public:
 	bool getMouseButtonState(mouse_buttons p_button){
 		return m_mouseButtonStates[p_button];
 	}
+	void reset();
 
 private:
 	InputHandler();

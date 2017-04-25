@@ -2,6 +2,8 @@
 #define PLAY_STATE_H
 
 #include "GameState.h"
+#include "SDLGameObject.h"
+
 
 class PlayState : public GameState{
 public:
@@ -17,6 +19,8 @@ public:
 
 private:
 	static const std::string s_playID;
+
+	bool checkCollision(SDLGameObject *p1, SDLGameObject *p2);
 };
 
 #endif

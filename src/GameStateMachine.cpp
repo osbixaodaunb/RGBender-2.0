@@ -11,8 +11,8 @@ void GameStateMachine::popState(){
 	if(!m_gameStates.empty()){
 		if(m_gameStates.back()->onExit()){
 			auto tmp = m_gameStates.back();
-			delete tmp;
 			m_gameStates.pop_back();
+			delete tmp;
 		}
 	}
 }

@@ -22,6 +22,9 @@ void MenuState::render(){
 }
 
 bool MenuState::onEnter(){
+	if(!TextureManager::Instance().load("assets/helicopter.png", "helicopter", Game::Instance().getRenderer())){
+		return false;
+	}
 
 	if(!TextureManager::Instance().load("assets/playButton.png", "playButton", Game::Instance().getRenderer())){
 		return false;
@@ -31,6 +34,9 @@ bool MenuState::onEnter(){
 		return false;
 	}
 
+	GameObject* player = new Player(new LoaderParams(100, 100, 128, 55, "helicopter"));
+
+	m_gameObjects.push_back(player);
 
 	GameObject* button1 = new MenuButton(new LoaderParams(100, 100, 400, 100, "playButton"), s_menuToPlay);
 	GameObject* button2 = new MenuButton(new LoaderParams(100, 300, 400, 100, "exitButton"), s_exitFromMenu);
@@ -47,7 +53,8 @@ bool MenuState::onExit(){
 
 	TextureManager::Instance().clearFromTextureMap("playbutton");
 	TextureManager::Instance().clearFromTextureMap("exitButton");
-	
+	TextureManager::Instance().clearFromTextureMap("helicopter");
+
 	cout << "Exiting MenuState" << endl;
 	
 	return true;
