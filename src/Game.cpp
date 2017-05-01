@@ -4,8 +4,11 @@
 #include "LoaderParams.h"
 #include "InputHandler.h"
 #include "GameStateMachine.h"
-#include "MenuState.h"
+#include "MainMenuState.h"
 #include "PlayState.h"
+#include "MenuButton.h"
+#include "GameObjectFactory.h"
+#include "AnimatedGraphic.h"
 
 #include <iostream>
 #include <vector>
@@ -59,8 +62,15 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	// everything inited successfully, start the main loop
 	m_bRunning = true;
 
+	GameObjectFactory::Instance().registerType("MenuButton", new MenuButtonCreator());
+	GameObjectFactory::Instance().registerType("Player", new PlayerCreator());
+	GameObjectFactory::Instance().registerType("Enemy", new EnemyCreator());
+	GameObjectFactory::Instance().registerType("AnimatedGraphic", new AnimatedGraphicCreator());
+
+
 	m_pGameStateMachine = new GameStateMachine();
-	m_pGameStateMachine->changeState(new MenuState);
+	m_pGameStateMachine->changeState(new MainMenuState());
+
 
 	return true;
 }

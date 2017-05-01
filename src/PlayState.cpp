@@ -9,6 +9,7 @@
 #include "Enemy.h"
 #include "GameOverState.h"
 #include "SDLGameObject.h"
+#include "StateParser.h"
 
 #include <string>
 #include <iostream>
@@ -34,17 +35,9 @@ void PlayState::render(){
 }
 
 bool PlayState::onEnter(){	
-	if(!TextureManager::Instance().load("assets/helicopter.png", "helicopter", Game::Instance().getRenderer())){
-		return false;
-	}
-
-	GameObject* player = new Player(new LoaderParams(500, 100, 128, 55, "helicopter"));
-
-	GameObject* enemy = new Enemy(new LoaderParams(100, 100, 128, 55, "helicopter"));
-
-	m_gameObjects.push_back(player);
-	m_gameObjects.push_back(enemy);
-
+	StateParser stateParser;
+	stateParser.parseState("test.xml", s_playID, &m_gameObjects, &m_textureIDList);
+	
 	cout <<	"Entering PlayState" << endl;
 	return true;
 }

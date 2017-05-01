@@ -3,17 +3,26 @@
 
 #include "SDLGameObject.h"
 #include "LoaderParams.h"
+#include "BaseCreator.h"
 
 #include <string>
 #include <SDL2/SDL.h>
 
 class Enemy : public SDLGameObject{
 public:
-	Enemy(const LoaderParams* pParams);
+	Enemy();
+
+	void load(const LoaderParams* pParams);
 
 	void draw();
 	void update();
 	void clean();
+};
+
+class EnemyCreator : public BaseCreator{
+	GameObject* createGameObject() const{
+		return new Enemy();
+	}
 };
 
 #endif

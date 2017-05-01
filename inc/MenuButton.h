@@ -3,10 +3,21 @@
 
 #include "LoaderParams.h"
 #include "SDLGameObject.h"
+#include "BaseCreator.h"
 
 class MenuButton : public SDLGameObject{
 public:
-	MenuButton(const LoaderParams* pParams, void (*callback) ());
+	MenuButton();
+
+	void load(const LoaderParams* pParams);
+
+	void setCallback(void(*callback) ()) {
+		m_callback = callback;
+	}
+
+	int getCallbackID(){
+		return m_callbackID;
+	}
 
 	virtual void draw();
 	virtual void update();
@@ -21,6 +32,12 @@ private:
 
 	void (*m_callback) ();
 	bool m_bReleased;
+	int m_callbackID;
 };
 
+class MenuButtonCreator : public BaseCreator{
+	GameObject* createGameObject() const{
+		return new MenuButton();
+	}
+};
 #endif

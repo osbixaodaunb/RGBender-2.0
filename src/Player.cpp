@@ -9,8 +9,12 @@
 
 using namespace std;
 
-Player::Player(const LoaderParams* pParams) : SDLGameObject(pParams){
+Player::Player() : SDLGameObject(){
 
+}
+
+void Player::load(const LoaderParams* pParams){
+	SDLGameObject::load(pParams);
 }
 
 void Player::draw(){
@@ -26,7 +30,7 @@ void Player::update(){
 }
 
 void Player::clean(){
-
+	SDLGameObject::clean();
 }
 
 void Player::handleInput(){
