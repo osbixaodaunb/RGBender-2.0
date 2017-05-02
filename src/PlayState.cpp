@@ -10,6 +10,8 @@
 #include "GameOverState.h"
 #include "SDLGameObject.h"
 #include "StateParser.h"
+#include "Level.h"
+#include "LevelParser.h"
 
 #include <string>
 #include <iostream>
@@ -18,26 +20,39 @@ using namespace std;
 
 const string PlayState::s_playID = "PLAY";
 
+Level *pLevel = NULL;
+
 void PlayState::update(){
-	if(InputHandler::Instance().isKeyDown(SDL_SCANCODE_ESCAPE)){
-		Game::Instance().getStateMachine()->pushState(new PauseState());
-	}
+	//if(InputHandler::Instance().isKeyDown(SDL_SCANCODE_ESCAPE)){
+	//	Game::Instance().getStateMachine()->pushState(new PauseState());
+	//}
 
 	GameState::update();
+	if(pLevel != NULL)
+		pLevel->update();
 
-	if(checkCollision(dynamic_cast<SDLGameObject*>(m_gameObjects[0]), dynamic_cast<SDLGameObject*>(m_gameObjects[1]))){
-		Game::Instance().getStateMachine()->pushState(new GameOverState());
-	}
+	//if(checkCollision(dynamic_cast<SDLGameObject*>(m_gameObjects[0]), dynamic_cast<SDLGameObject*>(m_gameObjects[1]))){
+	//	Game::Instance().getStateMachine()->pushState(new GameOverState());
+	//}
 }
 
 void PlayState::render(){
-	GameState::render();
+	//GameState::render();
+
+	if(pLevel != NULL){
+		pLevel->render();
+	}
+	else
+		std::cout << "Ola\n";
 }
 
 bool PlayState::onEnter(){	
-	StateParser stateParser;
-	stateParser.parseState("test.xml", s_playID, &m_gameObjects, &m_textureIDList);
-	
+	//StateParser stateParser;
+	//stateParser.parseState("test.xml", s_playID, &m_gameObjects, &m_textureIDList);
+
+	LevelParser levelParser;
+	pLevel = levelParser.parseLevel("assets/tileset1.tmx");
+
 	cout <<	"Entering PlayState" << endl;
 	return true;
 }

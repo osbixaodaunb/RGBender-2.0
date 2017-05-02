@@ -6,7 +6,7 @@ DOCFOLDER := doc/
 
 CC := g++
 CFLAGS := -Wall -Wno-reorder
-FLAGS := -std=c++11 -lSDL2 -lSDL2_image 
+FLAGS := -std=c++11 -lSDL2 -lSDL2_image -lz
 
 SRCFILES := $(wildcard $(SRCFOLDER)*.cpp)
 

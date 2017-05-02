@@ -38,8 +38,19 @@ public:
 		return m_pGameStateMachine;
 	}
 
+	int getGameWidth() const{
+		return m_gameWidth;
+	}
+
+	int getGameHeight() const {
+		return m_gameHeight;
+	}
+
 private:
 	Game() {}
+
+	int m_gameWidth;
+	int m_gameHeight;
 
 	SDL_Window* m_pWindow;
 	SDL_Renderer* m_pRenderer;

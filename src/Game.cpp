@@ -19,6 +19,9 @@ using namespace std;
 bool Game::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen){
 	int flags = fullscreen ? SDL_WINDOW_FULLSCREEN : 0;
 
+	m_gameWidth = width;
+	m_gameHeight = height;
+
 	// attempt to initialize SDL
 	if(SDL_Init(SDL_INIT_EVERYTHING) >= 0){
 		cout << "SDL init success" << endl;
@@ -86,21 +89,13 @@ void Game::render(){
 	SDL_RenderClear(m_pRenderer);
 
 	m_pGameStateMachine->render();
-	draw();
 
 	// draw to screen
 	SDL_RenderPresent(m_pRenderer);
 }
 
 void Game::update(){
-	m_currentFrame = int(SDL_GetTicks()/100 % 6);
-
 	m_pGameStateMachine->update();
-
-	for(GameObject* gameObject : m_gameObjects){
-		gameObject->update();
-	}
-
 }
 
 void Game::handleEvents(){
