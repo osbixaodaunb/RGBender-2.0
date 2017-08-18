@@ -40,6 +40,12 @@
 
 * zlib(latest)
 
+Para instalar as dependências execute o script:
+
+```
+$ sh ./install.sh
+```
+
 ## Gênero
 
 É uma composição de Boss Fighting, top-down shooter
