@@ -1,3 +1,4 @@
+/*Copyright 2017 MIT*/
 #include "SkillManager.h"
 #include "Log.h"
 #include "Player.h"
@@ -8,18 +9,14 @@
 #include <iostream>
 #include <functional>
 
-using namespace engine;
-
-using namespace std;
-
 SkillManager::SkillManager(Player* p_player) {
   m_player = p_player;
-  TextureManager::Instance().load("assets/red_skill.png", "redskill",
-    Game::Instance().getRenderer());
-  TextureManager::Instance().load("assets/green_skill.png", "greenskill",
-    Game::Instance().getRenderer());
-  TextureManager::Instance().load("assets/brown_skill.png", "brownskill",
-    Game::Instance().getRenderer());
+  engine::TextureManager::Instance().load("assets/red_skill.png", "redskill",
+    engine::Game::Instance().getRenderer());
+  engine::TextureManager::Instance().load("assets/green_skill.png",
+    "greenskill", engine::Game::Instance().getRenderer());
+  engine::TextureManager::Instance().load("assets/brown_skill.png",
+    "brownskill", engine::Game::Instance().getRenderer());
 
   m_skills[std::make_pair(RED, RED)] = std::bind(&SkillManager::redPlus, this);
   m_coolDownMap[std::make_pair(RED, RED)] = false;
@@ -137,8 +134,8 @@ uint8_t* SkillManager::cyan() {
 
 uint8_t* SkillManager::brown() {
   INFO("BROWN PLUS");
-  TextureManager::Instance().load(
-    "assets/Shield1.png", "shield", Game::Instance().getRenderer());
+  engine::TextureManager::Instance().load(
+    "assets/Shield1.png", "shield", engine::Game::Instance().getRenderer());
   // TextureManager::Instance().draw(
   // "instance", 100, 600, 100, 100, Game::Instance().getRenderer());
 
@@ -151,10 +148,13 @@ uint8_t* SkillManager::brown() {
   std::function<void(int)> setBlank =
     std::bind(&SkillManager::blank, this, 255);
 
-  engine::Game::Instance().addCooldown(new engine::Cooldown<int>(3000, brownSkill, false));
-  engine::Game::Instance().addCooldown(new engine::Cooldown<int>(3000, setBlank, 255));
+  engine::Game::Instance().addCooldown(
+    new engine::Cooldown<int>(3000, brownSkill, false));
+  engine::Game::Instance().addCooldown(
+    new engine::Cooldown<int>(3000, setBlank, 255));
 
-  engine::Game::Instance().addCooldown(new engine::Cooldown<int>(5000, reset, 3));
+  engine::Game::Instance().addCooldown(
+    new engine::Cooldown<int>(5000, reset, 3));
 
   uint8_t* pixels = new uint8_t[3];
   pixels[0] = 190;
@@ -163,7 +163,7 @@ uint8_t* SkillManager::brown() {
   return pixels;
 }
 
-uint8_t* SkillManager::blank(int placeholder){
+uint8_t* SkillManager::blank(int placeholder) {
   INFO("BLANK");
   uint8_t* pixels = new uint8_t[3];
   pixels[0] = 255;
@@ -176,40 +176,43 @@ uint8_t* SkillManager::blank(int placeholder){
   return pixels;
 }
 
-
-void SkillManager::setSkillPair(std::pair<default_inks, default_inks>* combinedSkills, default_inks ink, bool* isFirst){
-  if(combinedSkills->first == BLANK || *isFirst == true){
+void SkillManager::setSkillPair(std::pair<default_inks,
+  default_inks>* combinedSkills, default_inks ink, bool* isFirst) {
+  if (combinedSkills->first == BLANK || *isFirst == true) {
     combinedSkills->first = ink;
     *isFirst = false;
-  }
-  else if(combinedSkills->second == BLANK){
+  } else if (combinedSkills->second == BLANK) {
     combinedSkills->second = ink;
     *isFirst = true;
   }
 }
 
-void SkillManager::resetCooldown(int index){
+void SkillManager::resetCooldown(int index) {
   // Jeito bem migué de fazer, alguém pensa num jeito melhor ae
-  switch(index){
-    case 1: m_coolDownMap[make_pair(RED, RED)] = false; break;
-    case 2: m_coolDownMap[make_pair(GREEN, GREEN)] = false; break;
-    case 3: m_coolDownMap[std::make_pair(RED, GREEN)] = m_coolDownMap[std::make_pair(GREEN, RED)] = false; break;
+  switch (index) {
+    case 1: m_coolDownMap[std::make_pair(RED, RED)] = false; break;
+    case 2: m_coolDownMap[std::make_pair(GREEN, GREEN)] = false; break;
+    case 3: m_coolDownMap[std::make_pair(RED, GREEN)] =
+      m_coolDownMap[std::make_pair(GREEN, RED)] = false; break;
   }
-
 }
 
-void SkillManager::setCoolDownTrigger(std::pair<default_inks, default_inks> combinedSkills){
+void SkillManager::setCoolDownTrigger(
+  std::pair<default_inks, default_inks> combinedSkills) {
   std::cout << combinedSkills.first << '\n';
   std::cout << combinedSkills.second << '\n';
 
-  std::map<std::pair<default_inks, default_inks>, bool>::iterator it = m_coolDownMap.find(combinedSkills);
-  if(it == m_coolDownMap.end())
+  std::map<std::pair<default_inks, default_inks>, bool>::iterator it =
+    m_coolDownMap.find(combinedSkills);
+  if (it == m_coolDownMap.end()) {
     INFO("NAO ENCONTROU A COMBINACAO")
-  else{
-    m_coolDownMap[combinedSkills] = true; //Seta a skill pra entrar no estado de CoolDown
+  } else {
+    m_coolDownMap[combinedSkills] = true;
+    // Comentário da linha acima: Seta a skill pra entrar no estado de CoolDown
   }
 }
 
-function<uint8_t*()> SkillManager::getSkill(std::pair<default_inks, default_inks> combinedSkills){
+std::function<uint8_t*()> SkillManager::getSkill(
+  std::pair<default_inks, default_inks> combinedSkills) {
   return m_skills[combinedSkills];
 }
