@@ -1,5 +1,6 @@
-#ifndef BOSS_BULLET_H
-#define BOSS_BULLET_H
+/*Copyright 2017 MIT*/
+#ifndef INC_BOSSBULLET_H_
+#define INC_BOSSBULLET_H_
 
 #include "SDLGameObject.h"
 #include "LoaderParams.h"
@@ -11,62 +12,62 @@
 
 class Player;
 
-class BossBullet : public engine::SDLGameObject{
-public:
-	BossBullet(Player* target);
-	~BossBullet();
+class BossBullet : public engine::SDLGameObject {
+ public:
+  BossBullet(Player* target);
+  ~BossBullet();
 
-	void load(engine::Vector2D pVelocity, engine::Vector2D pPosition);
-	void load(const engine::LoaderParams* pParams);
-	void draw();
-	void update();
-	void clean();
-	void checkCollision();
+  void load(engine::Vector2D pVelocity, engine::Vector2D pPosition);
+  void load(const engine::LoaderParams* pParams);
+  void draw();
+  void update();
+  void clean();
+  void checkCollision();
 
-	bool isActive(){
-		return m_active;
-	}
+  bool isActive() {
+    return m_active;
+  }
 
-	void setActive(bool p_active=true){
-		m_active = p_active;
-	}
+  void setActive(bool p_active = true) {
+    m_active = p_active;
+  }
 
-	void setPlayer(Player *target){
-		m_player = target;
-	}
+  void setPlayer(Player *target) {
+    m_player = target;
+  }
 
-private:
-	double rotateTowards(engine::Vector2D);
+ private:
+  double rotateTowards(engine::Vector2D);
 
-	engine::Vector2D normal;
-	double originTime;
-	int m_moveSpeed;
+  engine::Vector2D normal;
+  double originTime;
+  int m_moveSpeed;
 
-	Player *m_player;
+  Player *m_player;
 
-	Uint32 timeToLive;
-	Uint32 bornTime;
+  Uint32 timeToLive;
+  Uint32 bornTime;
 
-	bool m_active;
+  bool m_active;
 };
 
-class BossBulletCreator{
-public:
-	BossBullet* create(Player *target){
-		for(auto bullet : bullets){
-			if(!bullet->isActive()){
-				bullet->setActive();
-				bullet->setPlayer(target);
-				return bullet;
-			}
-		}
-		INFO("A new bullet was created");
-		bullets.push_back(new BossBullet(target));
-		return bullets.back();
-	}
+class BossBulletCreator {
+ public:
+  BossBullet* create(Player *target) {
+    for (auto bullet : bullets) {
+      if (!bullet->isActive()) {
+        bullet->setActive();
+        bullet->setPlayer(target);
+        return bullet;
+      }
+    }
+    INFO("A new bullet was created");
+    bullets.push_back(new BossBullet(target));
+    return bullets.back();
+  }
 
-private:
-	std::vector<BossBullet*> bullets;
+ private:
+  std::vector<BossBullet*> bullets;
 };
 
-#endif
+#endif  // INC_BOSSBULLET_H_
