@@ -1,5 +1,6 @@
-#ifndef BULLET_H
-#define BULLET_H
+/*Copyright 2017 MIT*/
+#ifndef INC_BULLET_H_
+#define INC_BULLET_H_
 
 #include "SDLGameObject.h"
 #include "LoaderParams.h"
@@ -12,66 +13,66 @@
 class Enemy;
 
 class Bullet : public engine::SDLGameObject{
-public:
-	Bullet(Enemy* p_boss);
-	~Bullet();
+ public:
+  explicit::Bullet(Enemy* p_boss);
+  ~Bullet();
 
-	void load(engine::Vector2D pVelocity, engine::Vector2D pPosition);
-	void load(const engine::LoaderParams* pParams);
-	void draw();
-	void update();
-	void clean();
-	void checkCollision();
+  void load(engine::Vector2D pVelocity, engine::Vector2D pPosition);
+  void load(const engine::LoaderParams* pParams);
+  void draw();
+  void update();
+  void clean();
+  void checkCollision();
 
-	bool isActive(){
-		return m_active;
-	}
+  bool isActive() {
+    return m_active;
+  }
 
-	void setActive(bool p_active=true){
-		m_active = p_active;
-	}
+  void setActive(bool p_active = true) {
+    m_active = p_active;
+  }
 
-	void setBoss(Enemy *p_boss){
-		m_boss = p_boss;
-	}
-	void setVenemous(bool isVenemous){
-		m_venemous = isVenemous;
-	}
+  void setBoss(Enemy *p_boss) {
+    m_boss = p_boss;
+  }
+  void setVenemous(bool isVenemous) {
+    m_venemous = isVenemous;
+  }
 
-	bool getVenemous(){
-		return m_venemous;
-	}
-	bool m_collided;
-	
-private:
-	double rotateTowards(engine::Vector2D);
-	int m_moveSpeed;
-	bool m_venemous = false;
-	Enemy *m_boss;
+  bool getVenemous() {
+    return m_venemous;
+  }
+  bool m_collided;
 
-	Uint32 timeToLive;
-	Uint32 bornTime;
+ private:
+  double rotateTowards(engine::Vector2D);
+  int m_moveSpeed;
+  bool m_venemous = false;
+  Enemy *m_boss;
 
-	bool m_active;
+  Uint32 timeToLive;
+  Uint32 bornTime;
+
+  bool m_active;
 };
 
-class BulletCreator{
-public:
-	Bullet* create(Enemy *p_boss){
-		for(auto bullet : bullets){
-			if(!bullet->isActive()){
-				bullet->setActive();
-				bullet->setBoss(p_boss);
-				return bullet;
-			}
-		}
-		INFO("A new bullet was created");
-		bullets.push_back(new Bullet(p_boss));
-		return bullets.back();
-	}
+class BulletCreator {
+ public:
+  Bullet* create(Enemy *p_boss) {
+    for (auto bullet : bullets) {
+      if (!bullet->isActive()) {
+        bullet->setActive();
+        bullet->setBoss(p_boss);
+        return bullet;
+      }
+    }
+    INFO("A new bullet was created");
+    bullets.push_back(new Bullet(p_boss));
+    return bullets.back();
+  }
 
-private:
-	std::vector<Bullet*> bullets;
+ private:
+    std::vector<Bullet*> bullets;
 };
 
-#endif
+#endif  // INC_BULLET_H_
