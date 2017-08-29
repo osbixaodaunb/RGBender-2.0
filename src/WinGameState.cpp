@@ -11,7 +11,7 @@
 #include <iostream>
 #include <string>
 
-const std::string WinGameState::s_winGameID = "WIN";
+const std::String WinGameState::s_winGameID = "WIN";
 
 void WinGameState::s_winGameToMain() {
   engine::Game::Instance().getStateMachine()->changeState(new MainMenuState());
