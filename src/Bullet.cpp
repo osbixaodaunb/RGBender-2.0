@@ -14,6 +14,7 @@
 #include <string>
 #include "Childmaiden.h"
 
+
 // using namespace engine;
 
 Bullet::~Bullet() {
@@ -21,6 +22,7 @@ Bullet::~Bullet() {
 }
 
 Bullet::Bullet(Enemy *p_boss) : SDLGameObject() {
+
   setBoss(p_boss);
 
   timeToLive = 1000;
@@ -28,11 +30,13 @@ Bullet::Bullet(Enemy *p_boss) : SDLGameObject() {
   m_venemous = false;
 }
 
+
 void Bullet::load(const engine::LoaderParams* pParams) {
   m_velocity = engine::Vector2D(0, 0);
 
   SDLGameObject::load(pParams);
 }
+
 
 double Bullet::rotateTowards(engine::Vector2D pPosition) {
   engine::Vector2D target = engine::InputHandler::Instance().
