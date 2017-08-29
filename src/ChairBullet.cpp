@@ -1,3 +1,5 @@
+/*Copyright 2017 MIT*/
+
 #include "ChairBullet.h"
 #include "SDLGameObject.h"
 #include "Vector2D.h"
@@ -13,87 +15,95 @@
 #include "AudioManager.h"
 #include <iostream>
 
-using namespace engine;
-
-ChairBullet::~ChairBullet(){
-	INFO("REMOVE CHAIR BULLET");
+ChairBullet::~ChairBullet() {
+    INFO("REMOVE CHAIR BULLET");
 }
 
-ChairBullet::ChairBullet(Player *target) : SDLGameObject(){
-	setPlayer(target);
-	timeToLive = 5000;
-	m_active = true;
+ChairBullet::ChairBullet(Player *target) : SDLGameObject() {
+    setPlayer(target);
+    timeToLive = 5000;
+    m_active = true;
 }
 
-void ChairBullet::load(const LoaderParams* pParams){
-	m_velocity = Vector2D(0,0);
+void ChairBullet::load(const engine::LoaderParams* pParams) {
+    m_velocity = engine::Vector2D(0, 0);
 
-	SDLGameObject::load(pParams);
+    SDLGameObject::load(pParams);
 }
 
-double ChairBullet::rotateTowards(Vector2D pPosition){
-	Vector2D target = InputHandler::Instance().getMousePosition() - pPosition;
-	target = target.norm();
+double ChairBullet::rotateTowards(engine::Vector2D pPosition) {
+    engine::Vector2D target =
+        engine::InputHandler::Instance().getMousePosition() - pPosition;
+    target = target.norm();
 
-	Vector2D horizontal(0,1);
+    engine::Vector2D horizontal(0, 1);
 
-	return Vector2D::angle(target, Vector2D(0, 1));
+    return engine::Vector2D::angle(target, engine::Vector2D(0, 1));
 }
-void ChairBullet::load(Vector2D pVelocity, Vector2D pPosition){
-	double angle = rotateTowards(pPosition);
+void ChairBullet::load(engine::Vector2D pVelocity, engine::Vector2D pPosition) {
+    double angle = rotateTowards(pPosition);
 
-	m_moveSpeed = 7;
-	LoaderParams* pParams = new LoaderParams(pPosition.getX(), pPosition.getY(), 60, 96, "chairBullet", 0, 0, 0, angle, 55, 80);
-	SDLGameObject::load(pParams);
+    m_moveSpeed = 7;
+    engine::LoaderParams* pParams = new engine::LoaderParams(pPosition.getX(),
+                                                             pPosition.getY(),
+                                                             60, 96,
+                                                             "chairBullet", 0,
+                                                             0, 0, angle, 55,
+                                                             80);
+    SDLGameObject::load(pParams);
 
-	m_currentFrame = 0;
-	bornTime = Timer::Instance().step();
-	m_velocity = pVelocity.norm() * m_moveSpeed;
-	//m_velocity = Vector2D(0.5, 0.5);
-}
-
-void ChairBullet::draw(){
-	SDLGameObject::draw();
-}
-
-void ChairBullet::update(){
-
-	m_position += m_velocity;
-
-	if(Timer::Instance().step() >= bornTime + timeToLive){
-		m_active = false;
-		Game::Instance().getStateMachine()->currentState()->removeGameObject(this);
-	}
-
-	checkCollision();
-
+    m_currentFrame = 0;
+    bornTime = engine::Timer::Instance().step();
+    m_velocity = pVelocity.norm() * m_moveSpeed;
+    // m_velocity = engine::Vector2D(0.5, 0.5);
 }
 
-void ChairBullet::checkCollision(){
-	if(m_active){
-		Vector2D pos = m_player->getPosition();
-		Vector2D thisPos = getPosition();
-		
-		if(Physics::Instance().checkCollision(dynamic_cast<SDLGameObject*>(m_player), dynamic_cast<SDLGameObject*>(this))){
-			m_active = false;
-			Game::Instance().getStateMachine()->currentState()->removeGameObject(this);
-			INFO("Bullet collided");
-			INFO("PLAYER LOST THE GAME");
-			if(!m_player->getShieldActive()){
-				AudioManager::Instance().playChunk("assets/sounds/chair.wav");
-				m_player->setLife((m_player->getLife()) - 1);
-				m_player->setPlayerMoves(false);
-				m_player->setStunTime(Timer::Instance().step());
-			}
-			else if(m_player->getShieldActive())
-				m_player->setShieldHits();
-			
-			//Game::Instance().getStateMachine()->changeState(new GameOverState());
-		}
-	}
+void ChairBullet::draw() {
+    SDLGameObject::draw();
 }
 
-void ChairBullet::clean(){
-	SDLGameObject::clean();
+void ChairBullet::update() {
+    m_position += m_velocity;
+
+    if (engine::Timer::Instance().step() >= bornTime + timeToLive) {
+        m_active = false;
+       engine::Game::Instance().getStateMachine()->currentState()->
+                         removeGameObject(this);
+    }
+
+    checkCollision();
+}
+
+void ChairBullet::checkCollision() {
+    if (m_active) {
+        engine::Vector2D pos = m_player->getPosition();
+        engine::Vector2D thisPos = getPosition();
+
+        if (engine::Physics::Instance().
+            checkCollision(dynamic_cast<SDLGameObject*>(m_player),
+                           dynamic_cast<SDLGameObject*>(this))) {
+            m_active = false;
+           engine::Game::Instance().getStateMachine()->currentState()->
+                             removeGameObject(this);
+            INFO("Bullet collided");
+            INFO("PLAYER LOST THEengine::Game");
+            if (!m_player->getShieldActive()) {
+                engine::AudioManager::Instance().
+                    playChunk("assets/sounds/chair.wav");
+                m_player->setLife((m_player->getLife()) - 1);
+                m_player->setPlayerMoves(false);
+                m_player->setStunTime(engine::Timer::Instance().step());
+            } else if (m_player->getShieldActive()) {
+                m_player->setShieldHits();
+            }
+
+            /*engine::Game::Instance().getStateMachine()->
+            changeState(newengine::GameOverState()); */
+        }
+    }
+}
+
+void ChairBullet::clean() {
+    SDLGameObject::clean();
 }
 
