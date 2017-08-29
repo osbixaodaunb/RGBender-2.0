@@ -22,7 +22,6 @@ class PauseState : public MenuState {
 
   static void s_pauseToMain();
   static void s_resumePlay();
-
  private:
   virtual void setCallbacks(const std::vector<Callback>& callbacks);
   static const std::string s_pauseID;
