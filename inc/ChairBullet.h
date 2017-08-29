@@ -1,5 +1,7 @@
-#ifndef CHAIR_BULLET_H
-#define CHAIR_BULLET_H
+/*Copyright 2017 MIT*/
+
+#ifndef INC_CHAIRBULLET_H_
+#define INC_CHAIRBULLET_H_
 
 #include "SDLGameObject.h"
 #include "LoaderParams.h"
@@ -12,60 +14,62 @@
 
 class Player;
 
-class ChairBullet : public engine::SDLGameObject{
-public:
-	ChairBullet(Player* target);
-	~ChairBullet();
+class ChairBullet :
 
-	virtual void load(engine::Vector2D pVelocity, engine::Vector2D pPosition);
-	void load(const engine::LoaderParams* pParams);
-	void draw();
-	void update();
-	void clean();
-	void checkCollision();
+public engine::SDLGameObject{
+ public:
+    ChairBullet(Player* target);
+    ~ChairBullet();
 
-	bool isActive(){
-		return m_active;
-	}
+    virtual void load(engine::Vector2D pVelocity, engine::Vector2D pPosition);
+    void load(const engine::LoaderParams* pParams);
+    void draw();
+    void update();
+    void clean();
+    void checkCollision();
 
-	void setActive(bool p_active=true){
-		m_active = p_active;
-	}
+    bool isActive() {
+        return m_active;
+    }
 
-	void setPlayer(Player *target){
-		m_player = target;
-	}
+    void setActive(bool p_active = true) {
+        m_active = p_active;
+    }
 
-private:
-	double rotateTowards(engine::Vector2D);
+    void setPlayer(Player *target) {
+        m_player = target;
+    }
 
-	int m_moveSpeed;
+ private:
+    double rotateTowards(engine::Vector2D);
 
-	Player *m_player;
+    int m_moveSpeed;
 
-	Uint32 timeToLive;
-	Uint32 bornTime;
+    Player *m_player;
 
-	bool m_active;
+    Uint32 timeToLive;
+    Uint32 bornTime;
+
+    bool m_active;
 };
 
 class ChairBulletCreator{
-public:
-	ChairBullet* create(Player *target){
-		for(auto bullet : bullets){
-			if(!bullet->isActive()){
-				bullet->setActive();
-				bullet->setPlayer(target);
-				return bullet;
-			}
-		}
-		INFO("A new bullet was created");
-		bullets.push_back(new ChairBullet(target));
-		return bullets.back();
-	}
+ public:
+     ChairBullet* create(Player *target) {
+         for (auto bullet : bullets) {
+             if (!bullet->isActive()) {
+                 bullet->setActive();
+                 bullet->setPlayer(target);
+                 return bullet;
+             }
+         }
+         INFO("A new bullet was created");
+         bullets.push_back(new ChairBullet(target));
+         return bullets.back();
+     }
 
-private:
-	std::vector<ChairBullet*> bullets;
+ private:
+     std::vector<ChairBullet*> bullets;
 };
 
-#endif
+#endif  // INC_CHAIRBULLET_H_
