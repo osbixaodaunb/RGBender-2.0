@@ -1,4 +1,5 @@
-/*Copyrights 2017 IJE*/
+
+/*Copyright 2017 MIT*/
 #include "PauseState.h"
 #include "Game.h"
 #include "GameState.h"
@@ -12,14 +13,17 @@
 #include <string>
 #include <vector>
 
+// using namespace engine;
+
 const std::string PauseState::s_pauseID = "PAUSE";
 
 void PauseState::s_pauseToMain() {
-  engine::Game::Instance().getStateMachine()->changeState(new MainMenuState());
+  engine::Game::Instance().getStateMachine() ->
+  changeState(new MainMenuState());
 }
 
 void PauseState::s_resumePlay() {
-  engine::Game::Instance().getStateMachine()->popState();
+  engine::Game::Instance().getStateMachine() -> popState();
 }
 
 void PauseState::update() {
@@ -32,8 +36,10 @@ void PauseState::render() {
 
 bool PauseState::onEnter() {
   engine::StateParser stateParser;
-  stateParser.parseState("test.xml", s_pauseID,
-                &m_gameObjects, &m_textureIDList);
+  stateParser.parseState("test.xml",
+   s_pauseID,
+   &m_gameObjects,
+   &m_textureIDList);
 
   m_callbacks.push_back(0);
   m_callbacks.push_back(s_resumePlay);
@@ -49,7 +55,7 @@ void PauseState::setCallbacks(const std::vector<Callback>& callbacks) {
   for (auto gameObject : m_gameObjects) {
     if (dynamic_cast<MenuButton*>(gameObject)) {
       MenuButton* pButton = dynamic_cast<MenuButton*>(gameObject);
-      pButton->setCallback(callbacks[pButton->getCallbackID()]);
+      pButton -> setCallback(callbacks[pButton -> getCallbackID()]);
     }
   }
 }
