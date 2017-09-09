@@ -1,4 +1,4 @@
-/*Copyright 2017 MIT*/
+/*Copyright 2017 RGBender*/
 
 #ifndef INC_CHILDBULLET_H_
 #define INC_CHILDBULLET_H_
@@ -13,7 +13,7 @@
 #include <vector>
 
 class Player;
-
+// Handle all necessary actions to create and manipulate a childBullet
 class ChildBullet :  public engine::SDLGameObject{
  public:
     ChildBullet(Player* target);
