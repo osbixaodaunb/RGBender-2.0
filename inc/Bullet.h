@@ -1,4 +1,10 @@
-/*Copyright 2017 MIT*/
+/*Copyright 2017 RGBender*/
+
+// Library: Bullet (.h)
+
+// Purpose: This library declares methods that will be used later in
+// the Bullet.cpp file.
+
 #ifndef INC_BULLET_H_
 #define INC_BULLET_H_
 
@@ -12,39 +18,49 @@
 
 class Enemy;
 
+// Class constructor method.
 class Bullet : public engine::SDLGameObject{
  public:
-  Bullet(Enemy* p_boss);
+  explicit Bullet(Enemy* p_boss);
   ~Bullet();
 
+  // Method that loads the velocity and the position of the bullet.
   void load(engine::Vector2D pVelocity, engine::Vector2D pPosition);
+  // Method that load the parameter of the bullet.
   void load(const engine::LoaderParams* pParams);
+  // Method that draws the bullet.
   void draw();
+  // Method that updates bullet frames.
   void update();
+  // Method that celans the bullet of the screen.
   void clean();
+  // Method that updates the previous methods.
   void checkCollision();
 
   bool isActive() {
     return m_active;
   }
 
+  // Method that considers the bullet collision with the boss.
   void setActive(bool p_active = true) {
     m_active = p_active;
   }
-
   void setBoss(Enemy *p_boss) {
     m_boss = p_boss;
   }
+  // Method that loads the poison special.
   void setVenemous(bool isVenemous) {
     m_venemous = isVenemous;
   }
-
+  // Method that put the poison in the bullet.
   bool getVenemous() {
     return m_venemous;
   }
   bool m_collided;
 
  private:
+  // Signature of the rotateTowards method that directs
+  // the bullet to the mouse cursor.
   double rotateTowards(engine::Vector2D);
   int m_moveSpeed;
   bool m_venemous = false;
