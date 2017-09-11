@@ -33,6 +33,7 @@ Bullet::Bullet(Enemy *p_boss) : SDLGameObject() {
   m_venemous = false;
 }
 
+// Loads parameters of the bullet such as velocity.
 void Bullet::load(const engine::LoaderParams* pParams) {
   m_velocity = engine::Vector2D(0, 0);
 

@@ -1,13 +1,18 @@
 /*Copyright 2017 MIT*/
+
+// Class: MenuButton (.cpp)
+
+// Purpose: This class provides functionalities for the menu button.
+
 #include "MenuButton.h"
 #include "Vector2D.h"
 #include "InputHandler.h"
 
-// using namespace engine;
-
 MenuButton::MenuButton() : SDLGameObject() {
 }
 
+// Load the parameters of the menu button such as start the game and change
+// the state of the button according to the mouse cursor position.
 void MenuButton::load(const engine::LoaderParams* pParams) {
   SDLGameObject::load(pParams);
 
@@ -16,10 +21,13 @@ void MenuButton::load(const engine::LoaderParams* pParams) {
   m_currentFrame = MOUSE_OUT;
 }
 
+// Draws the menu button.
 void MenuButton::draw() {
   SDLGameObject::draw();
 }
 
+// Updates the frames of the menu button.
+// Takes as parameter the position of the mouse cursor.
 void MenuButton::update() {
   engine::Vector2D pMousePos =
   engine::InputHandler::Instance().getMousePosition();
@@ -45,6 +53,7 @@ void MenuButton::update() {
   }
 }
 
+// Cleans the menu button of the screen.
 void MenuButton::clean() {
   SDLGameObject::clean();
 }

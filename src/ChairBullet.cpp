@@ -30,6 +30,7 @@ ChairBullet::ChairBullet(Player *target) : SDLGameObject() {
     m_active = true;
 }
 
+// Loads parameters of the chair bullet such as velocity.
 void ChairBullet::load(const engine::LoaderParams* pParams) {
     m_velocity = engine::Vector2D(0, 0);
 
@@ -37,6 +38,7 @@ void ChairBullet::load(const engine::LoaderParams* pParams) {
 }
 
 // Calculates the angle of the chair bullet according to the child position.
+// Returns the position of the player.
 double ChairBullet::rotateTowards(engine::Vector2D pPosition) {
     engine::Vector2D target =
         engine::InputHandler::Instance().getMousePosition() - pPosition;

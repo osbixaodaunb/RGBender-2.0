@@ -1,8 +1,8 @@
 /*Copyright 2017 RGBender*/
 
-// Library: ChairBullet (.h)
+// Class: ChairBullet (.h)
 
-// Purpose: This library declares methods that will be used later in
+// Purpose: This class declares methods that will be used later in
 // the ChairBullet.cpp file.
 
 #ifndef INC_CHAIRBULLET_H_
@@ -40,6 +40,7 @@ public engine::SDLGameObject{
     // Method that updates the previous methods.
     void checkCollision();
 
+    // Returns the active value of the chair bullet.
     bool isActive() {
       return m_active;
     }
@@ -67,6 +68,9 @@ public engine::SDLGameObject{
     bool m_active;
 };
 
+// Creates the chair bullet.
+// Take as parameters the position of the player to set the direction of the chair bullet.
+// Returns the chair bullet.
 class ChairBulletCreator{
  public:
      ChairBullet* create(Player *target) {

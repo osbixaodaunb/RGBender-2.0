@@ -1,8 +1,8 @@
 /*Copyright 2017 RGBender*/
 
-// Library: Bullet (.h)
+// Class: Bullet (.h)
 
-// Purpose: This library declares methods that will be used later in
+// Purpose: This class declares methods that will be used later in
 // the Bullet.cpp file.
 
 #ifndef INC_BULLET_H_
@@ -37,6 +37,7 @@ class Bullet : public engine::SDLGameObject{
   // Method that updates the previous methods.
   void checkCollision();
 
+  // Returns the active value of the bullet.
   bool isActive() {
     return m_active;
   }
@@ -53,6 +54,7 @@ class Bullet : public engine::SDLGameObject{
     m_venemous = isVenemous;
   }
   // Method that put the poison in the bullet.
+  // Returns the poison.
   bool getVenemous() {
     return m_venemous;
   }
@@ -72,6 +74,8 @@ class Bullet : public engine::SDLGameObject{
   bool m_active;
 };
 
+// Creates the bullet.
+// Returns the bullet and a new bullet after.
 class BulletCreator {
  public:
   Bullet* create(Enemy *p_boss) {
