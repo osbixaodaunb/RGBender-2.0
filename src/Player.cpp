@@ -43,7 +43,7 @@ Player::Player() : SDLGameObject() {
   m_life = 6;
   canMove = true;
 }
-
+// Load the pParams on the game
 void Player::load(const engine::LoaderParams* pParams) {
   SDLGameObject::load(pParams);
 }
@@ -124,7 +124,7 @@ void Player::setBulletVenemous(bool isVenemous) {
   }
 }
 // Set player's bullet to be poisoned for a period of time increasing the bullet
-// hit in 5 points
+// hit in 5 points and verify is bullet has hitted the boss
 void Player::setPoison() {
   if (bullet != NULL && bullet->getVenemous() && bullet->isActive()) {
     if (engine::Timer::Instance().step() <=
@@ -195,7 +195,8 @@ void Player::handleInput() {
 bool inside(double angle, double value) {
   return value > angle - 22.5 && value < angle + 22.5;
 }
-// Changes player sprite according to the keyboard press
+// Changes player sprite according to the keyboard press.
+// It can handle all the directions the player can point to
 void Player::changeSprite(int index) {
   m_flip = false;
   switch (index) {
@@ -227,9 +228,11 @@ void Player::changeSprite(int index) {
     m_textureID = "upright";
     break;
   }
+  // count is used here to make the attack annimation last only for a feel
+  // seconds (0,3 seconds)and when the player hit the fire button.
   if (!canMove) {
     m_textureID += "stun";
-  } else if (engine::Timer::Instance().step() < count) {
+  } else if (engine::Timer::Instance().step() < count) { 
     m_textureID += "attack";
   }
 }
@@ -256,7 +259,8 @@ void Player::rotateTowards() {
 }
 
 // Handle players movements according to keyboard press keeping 
-// he inside the screen.
+// he inside the screen, verify is the player is making a dash and 
+// his position on the screen
 void Player::move() {
   engine::Vector2D movement(0, 0);
 
@@ -350,7 +354,8 @@ void Player::useSkill() {
     }
   }
 }
-// Speed up player's speed on the direction he is moving at 15 times
+// Speed up player's speed on the direction he is moving at 15 times.
+// The dash time can only last 0,1 seconds
 void Player::dash() {
   if (engine::InputHandler::Instance().isKeyDown("space", 1000)) {
     m_dashTime = engine::Timer::Instance().step();
