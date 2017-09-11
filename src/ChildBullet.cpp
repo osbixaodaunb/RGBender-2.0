@@ -23,13 +23,14 @@ ChildBullet::ChildBullet(Player *target) : SDLGameObject() {
     timeToLive = 5000; // in milliseconds
     m_active = true;
 }
-
+// Load pParams in the game
 void ChildBullet::load(const engine::LoaderParams* pParams) {
     m_velocity = engine::Vector2D(0, 0);
 
     SDLGameObject::load(pParams);
 }
-//Calculates the angle of the childBullet according to the player position
+// Calculates the angle of the childBullet according to the player position
+// As a parameter it recive the player position
 double ChildBullet::rotateTowards(engine::Vector2D pPosition) {
     engine::Vector2D target = engine::InputHandler::Instance().
                               getMousePosition() - pPosition;
@@ -61,13 +62,13 @@ void ChildBullet::load(engine::Vector2D pVelocity, engine::Vector2D pPosition) {
 void ChildBullet::draw() {
     SDLGameObject::draw();
 }
-// Remove the bullet from the game after a certain time period 
-// and calls a function to see if the player was hitted
+// Remove the bullet from the game after a certain time period, define by the 
+// variable timeToLive, and calls a function to see if the player was hitted
 void ChildBullet::update() {
     m_textureID = "childBullet";
     m_position += m_velocity;
 
-    if (engine::Timer::Instance().step() >= bornTime + timeToLive) {
+    if (engine::Timer::Instance().step() >= bornTime + timeToLive) { // Just verify if the timeToLive has passed
         m_active = false;
        engine::Game::Instance().getStateMachine()->currentState()->
                          removeGameObject(this);
@@ -77,7 +78,7 @@ void ChildBullet::update() {
 }
 //Verify if the bullet collided with the player,
 //if it has the bullet is removed from the game and 
-//the player loses 2 life points, if he is not using a shield.
+//the player loses 2 life points, if he was not using a shield.
 void ChildBullet::checkCollision() {
     if (m_active) {
         engine::Vector2D pos = m_player->getPosition();

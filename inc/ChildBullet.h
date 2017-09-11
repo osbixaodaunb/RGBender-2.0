@@ -20,16 +20,19 @@ class ChildBullet :  public engine::SDLGameObject{
     ~ChildBullet();
 
     virtual void load(engine::Vector2D pVelocity, engine::Vector2D pPosition);
+    // Load pParams on the game
     void load(const engine::LoaderParams* pParams);
     void draw();
+    // Update bullet status
     void update();
     void clean();
+    // Verify if there  was a collision with the player
     void checkCollision();
-
+    // Return if bullet was created and can be used
     bool isActive() {
         return m_active;
     }
-
+    // Set bullet activate state to True.
     void setActive(bool p_active=true) {
         m_active = p_active;
     }
@@ -39,8 +42,9 @@ class ChildBullet :  public engine::SDLGameObject{
     }
 
  private:
+    // Aim bullet to the players position
     double rotateTowards(engine::Vector2D);
-
+    // Velocity of the bullet
     int m_moveSpeed;
 
     Player *m_player;
@@ -53,6 +57,7 @@ class ChildBullet :  public engine::SDLGameObject{
 
 class ChildBulletCreator{
  public:
+    // Create a bullet with no time to live
     ChildBullet* create(Player *target) {
         for (auto bullet : bullets) {
             if (!bullet->isActive()) {
