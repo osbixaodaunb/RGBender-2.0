@@ -1,4 +1,4 @@
-/*Copyright 2017 MIT*/
+/*Copyright 2017 RGBender*/
 
 // Class: ChairBullet (.cpp)
 

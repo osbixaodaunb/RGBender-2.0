@@ -39,7 +39,8 @@ void Bullet::load(const engine::LoaderParams* pParams) {
   SDLGameObject::load(pParams);
 }
 
-// Make the bullet follow the mouse cursor.
+// Make the bullet follow the position of the mouse cursor.
+// Returns the position of the mouse.
 double Bullet::rotateTowards(engine::Vector2D pPosition) {
   engine::Vector2D target = engine::InputHandler::Instance().
       getMousePosition() - pPosition;
