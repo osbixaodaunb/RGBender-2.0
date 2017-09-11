@@ -1,5 +1,9 @@
 /*Copyright 2017 MIT*/
 
+// Class: ChairBullet (.cpp)
+
+// Purpose: This class provides functionalities for the chair bullet.
+
 #include "ChairBullet.h"
 #include "SDLGameObject.h"
 #include "Vector2D.h"
@@ -19,6 +23,7 @@ ChairBullet::~ChairBullet() {
     INFO("REMOVE CHAIR BULLET");
 }
 
+// Create the chair bullet with 5000 miliseconds to stay in game.
 ChairBullet::ChairBullet(Player *target) : SDLGameObject() {
     setPlayer(target);
     timeToLive = 5000;
@@ -31,6 +36,7 @@ void ChairBullet::load(const engine::LoaderParams* pParams) {
     SDLGameObject::load(pParams);
 }
 
+// Calculates the angle of the chair bullet according to the child position.
 double ChairBullet::rotateTowards(engine::Vector2D pPosition) {
     engine::Vector2D target =
         engine::InputHandler::Instance().getMousePosition() - pPosition;
@@ -40,6 +46,9 @@ double ChairBullet::rotateTowards(engine::Vector2D pPosition) {
 
     return engine::Vector2D::angle(target, engine::Vector2D(0, 1));
 }
+
+// Loads the chair bullet on game and throws against the child.
+// Get as parameters the position and the velocity of the child.
 void ChairBullet::load(engine::Vector2D pVelocity, engine::Vector2D pPosition) {
     double angle = rotateTowards(pPosition);
 
@@ -62,6 +71,7 @@ void ChairBullet::draw() {
     SDLGameObject::draw();
 }
 
+// Updates the chair bullet frame.
 void ChairBullet::update() {
     m_position += m_velocity;
 
@@ -74,7 +84,9 @@ void ChairBullet::update() {
     checkCollision();
 }
 
+// Updates the previous methods checking if the child was hitted.
 void ChairBullet::checkCollision() {
+    // Shooting condition pointing to the child.
     if (m_active) {
         engine::Vector2D pos = m_player->getPosition();
         engine::Vector2D thisPos = getPosition();
@@ -87,6 +99,7 @@ void ChairBullet::checkCollision() {
                              removeGameObject(this);
             INFO("Bullet collided");
             INFO("PLAYER LOST THEengine::Game");
+            // If the child was hitted, she loses one life point.
             if (!m_player->getShieldActive()) {
                 engine::AudioManager::Instance().
                     playChunk("assets/sounds/chair.wav");
@@ -103,6 +116,7 @@ void ChairBullet::checkCollision() {
     }
 }
 
+// Cleans the chair bullet of the screen.
 void ChairBullet::clean() {
     SDLGameObject::clean();
 }
