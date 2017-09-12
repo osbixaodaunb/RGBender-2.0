@@ -1,4 +1,4 @@
-/*Copyright 2017 MIT*/
+/*Copyright 2017 RGBender*/
 #ifndef INC_PAUSESTATE_H_
 #define INC_PAUSESTATE_H_
 
@@ -9,6 +9,9 @@
 #include <vector>
 
 class PauseState : public MenuState {
+
+// Definition of the game state when player press pause button
+
  public:
   virtual void update();
   virtual void render();
@@ -22,9 +25,13 @@ class PauseState : public MenuState {
 
   static void s_pauseToMain();
   static void s_resumePlay();
+
  private:
   virtual void setCallbacks(const std::vector<Callback>& callbacks);
   static const std::string s_pauseID;
+
 };
 
-#endif  // INC_PAUSESTATE_H_
+#endif
+
+// INC_PAUSESTATE_H_
