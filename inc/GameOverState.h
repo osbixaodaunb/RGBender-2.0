@@ -1,4 +1,4 @@
-/*Copyright 2017 MIT*/
+/*Copyright 2017 RGBender*/
 #ifndef INC_GAMEOVERSTATE_H_
 #define INC_GAMEOVERSTATE_H_
 
@@ -8,6 +8,9 @@
 #include <vector>
 
 class GameOverState : public MenuState {
+
+// Definition of the game state after player dies or loses.
+
  public:
   virtual void update();
   virtual void render();
@@ -28,4 +31,6 @@ class GameOverState : public MenuState {
   static const std::string s_gameOverID;
 };
 
-#endif  // INC_GAMEOVERSTATE_H_
+#endif
+
+// INC_GAMEOVERSTATE_H_

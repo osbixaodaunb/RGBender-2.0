@@ -1,4 +1,4 @@
-/*Copyright 2017 MIT*/
+/*Copyright 2017 RGBender*/
 #include "GameOverState.h"
 #include "GameState.h"
 #include "Game.h"
@@ -13,27 +13,30 @@
 
 #include <iostream>
 
-// using namespace engine;
-
 const std::string GameOverState::s_gameOverID = "GAMEOVER";
 
+// Run on infite loop
 void GameOverState::update() {
   GameState::update();
 }
 
+// Renderize information on screen
 void GameOverState::render() {
   GameState::render();
 }
 
+// Change to state of main menu after losing
 void GameOverState::s_gameOverToMain() {
   engine::Game::Instance().getStateMachine() ->
     changeState(new MainMenuState());
 }
 
+// Restart game. Play again instead of going to main menu
 void GameOverState::s_restartPlay() {
   engine::Game::Instance().getStateMachine() -> changeState(new PlayState());
 }
 
+// Routine to be executed before changing to state
 bool GameOverState::onEnter() {
   engine::StateParser stateParser;
   stateParser.parseState("test.xml", s_gameOverID, &m_gameObjects,
@@ -43,12 +46,13 @@ bool GameOverState::onEnter() {
   m_callbacks.push_back(s_gameOverToMain);
   m_callbacks.push_back(s_restartPlay);
 
-  // set the callbacks for menu items
+  // Insert callbacks for menu items and objects
   setCallbacks(m_callbacks);
   INFO("Entering GameOverState");
   return true;
 }
 
+// Routine to be executed after exiting state
 bool GameOverState::onExit() {
   GameState::onExit();
   INFO("Exiting GameOverState");
@@ -56,12 +60,9 @@ bool GameOverState::onExit() {
 }
 
 void GameOverState::setCallbacks(const std::vector<Callback> &callbacks) {
-  // go through game objects
+  // Go through game objects
   for (auto gameObject : m_gameObjects) {
-    /*
-    / if they are of type MenuButton,
-    / then assign a callback based on the id passed in from the file
-    */
+    // Check for type menuButton, assign a callback based on the btn ID
     if (dynamic_cast<MenuButton*>(gameObject)) {
       MenuButton* pButton = dynamic_cast<MenuButton*>(gameObject);
       pButton -> setCallback(callbacks[pButton -> getCallbackID()]);
