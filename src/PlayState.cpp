@@ -1,4 +1,4 @@
-/*Copyright 2017 MIT*/
+/*Copyright 2017 RGBender*/
 #include "PlayState.h"
 #include "GameState.h"
 #include "GameObject.h"
@@ -19,24 +19,22 @@
 #include <iostream>
 
 // using namespace std;
-
 // using namespace engine;
 
 const std::string PlayState::s_playID = "PLAY";
 
+// Routine to be executed in loop, updated after each frame
 void PlayState::update() {
-  // if(InputHandler::Instance().isKeyDown(SDL_SCANCODE_ESCAPE)){
-  //   Game::Instance().getStateMachine()->pushState(new PauseState());
-  // }
 
-
-  if (engine::InputHandler::Instance().isKeyDown("p"))
+  if (engine::InputHandler::Instance().isKeyDown("p")) {
     engine::Game::Instance().getStateMachine() -> pushState(new PauseState());
+  }
 
   GameState::update();
-  if (pLevel != NULL)
-    pLevel -> update();
 
+  if (pLevel != NULL) {
+    pLevel -> update();
+  }
 
   m_playerLife = m_player->getLife();
 
@@ -46,74 +44,105 @@ void PlayState::update() {
   // }
 }
 
+// Renderize information on screen. It shows and displays.
 void PlayState::render() {
   if (pLevel != NULL) {
     pLevel->render();
   }
 
-  engine::TextureManager::Instance().draw("emptyhealthboss",
+  // Draw boss heath bar on screen
+  engine::TextureManager::Instance().draw(
+    "emptyhealthboss",
     500,
-    m_boss -> getPosition().getY()-77,
+    m_boss -> getPosition().getY() - 77,
     424,
     60,
-    engine::Game::Instance().getRenderer());
-  engine::TextureManager::Instance().draw("healthboss",
-    500+11,
-    m_boss -> getPosition().getY()-60,
-    m_boss -> getHealth()-20,
+    engine::Game::Instance().getRenderer()
+  );
+
+  // Draw Boss health bar on screen
+  engine::TextureManager::Instance().draw(
+    "healthboss",
+    500 + 11,
+    m_boss -> getPosition().getY() - 60,
+    m_boss -> getHealth() - 20,
     28,
-    engine::Game::Instance().getRenderer());
-  engine::TextureManager::Instance().draw("madreXuxa",
+    engine::Game::Instance().getRenderer()
+  );
+
+  // Draw madreXuxa name on screen
+  engine::TextureManager::Instance().draw(
+    "madreXuxa",
     620,
     m_boss -> getPosition().getY() - 120,
     180,
     60,
-    engine::Game::Instance().getRenderer());
+    engine::Game::Instance().getRenderer()
+  );
+
   GameState::render();
 }
 
-
+// Routine to execute when entering game. Starting to play.
 bool PlayState::onEnter() {
-  // StateParser stateParser;
   /*
-  /  stateParser.parseState("test.xml",
-  /    s_playID,
-  /    &m_gameObjects,
-  /    &m_textureIDList);
+  * stateParser.parseState("test.xml",
+  *    s_playID,
+  *    &m_gameObjects,
+  *    &m_textureIDList);
   */
   engine::Game::Instance().setScore(0);
+
+  // Load Score and displays it on screen using ttf font
   engine::TextureManager::Instance().loadText(
     std::to_string(engine::Game::Instance().getScore()),
     "assets/fonts/Lato-Regular.ttf",
     "score",
     {0, 0, 0},
     50,
-    engine::Game::Instance().getRenderer());
+    engine::Game::Instance().getRenderer()
+  );
+
+  // Plays background music
   engine::AudioManager::Instance().playMusic("assets/sounds/xuxabeat.mp3");
+
+  // Parse level from xml file
   engine::LevelParser levelParser;
   pLevel = levelParser.parseLevel("assets/mapadoidao.tmx");
+
   m_player = pLevel -> getPlayer();
   m_boss = pLevel -> getXuxa();
+
   INFO("Entering PlayState");
   return true;
 }
 
+// Routine to be executed after exiting state
 bool PlayState::onExit() {
   GameState::onExit();
+
+  // Stop music
   engine::AudioManager::Instance().stop();
+
+  // Clear textures erasing from screen
   engine::TextureManager::Instance().clearFromTextureMap("helicopter");
   engine::TextureManager::Instance().clearFromTextureMap("RAG");
+
   INFO("Exiting PlayState");
   return true;
 }
 
+// Check for collisions between two game objects
 bool PlayState::checkCollision(engine::SDLGameObject *p1,
   engine::SDLGameObject *p2) {
+
+  // Variable Declarations
   int leftA, leftB;
   int rightA, rightB;
   int topA, topB;
   int bottomA, bottomB;
 
+  // Logics and position calculations
   leftA = p1 -> getPosition().getX();
   rightA = p1 -> getPosition().getX() + p1 -> getWidth();
   topA = p1 -> getPosition().getY();
@@ -124,6 +153,7 @@ bool PlayState::checkCollision(engine::SDLGameObject *p1,
   topB = p2 -> getPosition().getY();
   bottomB = p2 -> getPosition().getY() + p2 -> getHeight();
 
+  // Check if positions are overriding each other
   if (bottomA <= topB) return false;
   if (topA >= bottomB) return false;
   if (rightA <= leftB) return false;
