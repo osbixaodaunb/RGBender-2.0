@@ -1,4 +1,4 @@
-/*Copyright 2017 MIT*/
+/*Copyright 2017 RGBender*/
 #include "MainMenuState.h"
 #include "MenuButton.h"
 #include "TextureManager.h"
@@ -18,21 +18,28 @@
 
 const std::string MainMenuState::s_menuID = "MENU";
 
+// Run on infite loop, update in each frame
 void MainMenuState::update() {
   GameState::update();
 }
 
+// Renderize information on game screen
 void MainMenuState::render() {
   GameState::render();
 }
 
+// Routine to be executed before changing to state
 bool MainMenuState::onEnter() {
-  // parse the state
+  // Parse the state
   engine::StateParser stateParser;
   stateParser.parseState("test.xml", s_menuID, &m_gameObjects,
     &m_textureIDList);
+
+  // Play background music
   engine::AudioManager::Instance().playMusic("assets/sounds/xuxabeat.mp3");
-  m_callbacks.push_back(0);  // pushback 0 callbackID starts with 1
+
+  // Callback to insert buttons in state
+  m_callbacks.push_back(0);
   m_callbacks.push_back(s_menuToPlay);
   m_callbacks.push_back(s_exitFromMenu);
 
@@ -41,13 +48,10 @@ bool MainMenuState::onEnter() {
   return true;
 }
 
+// Check for type MenuButton and assign a callback based on the id
 void MainMenuState::setCallbacks(const std::vector<Callback> &callbacks) {
-  // go through game objects
+  // Go through game objects
   for (auto gameObject : m_gameObjects) {
-    /*
-    / if they are of type MenuButton,
-    /then assign a callback based on the id passed in from the file
-    */
     if (dynamic_cast<MenuButton*>(gameObject)) {
       MenuButton* pButton = dynamic_cast<MenuButton*>(gameObject);
       pButton->setCallback(callbacks[pButton->getCallbackID()]);
@@ -55,6 +59,7 @@ void MainMenuState::setCallbacks(const std::vector<Callback> &callbacks) {
   }
 }
 
+// Routine to be executed after exiting state
 bool MainMenuState::onExit() {
   GameState::onExit();
   INFO("Exiting MainMenuState");
@@ -62,10 +67,12 @@ bool MainMenuState::onExit() {
   return true;
 }
 
+// Change from scene menu to scene Play, where the game starts
 void MainMenuState::s_menuToPlay() {
   engine::Game::Instance().getStateMachine() -> changeState(new PlayState());
 }
 
+// Quit game after pressing the respective buttons
 void MainMenuState::s_exitFromMenu() {
   engine::Game::Instance().quit();
 }

@@ -1,4 +1,4 @@
-/*Copyright 2017 MIT*/
+/*Copyright 2017 RGBender*/
 #ifndef INC_MAINMENUSTATE_H_
 #define INC_MAINMENUSTATE_H_
 
@@ -8,6 +8,9 @@
 #include <string>
 
 class MainMenuState : public MenuState {
+
+  // Definition of initial menu screen, control of logic and components in state
+
  public:
   virtual void update();
   virtual void render();
@@ -29,4 +32,6 @@ class MainMenuState : public MenuState {
 };
 
 
-#endif  // INC_MAINMENUSTATE_H_
+#endif
+
+// INC_MAINMENUSTATE_H_
