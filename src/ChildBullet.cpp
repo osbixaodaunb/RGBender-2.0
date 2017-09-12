@@ -1,5 +1,9 @@
 /*Copyright 2017 RGBender*/
 
+// Class: ChildBullet.cpp
+
+// Purpose: Handle all necessary actions to create and manipulate a childBullet.
+
 #include "ChildBullet.h"
 #include "SDLGameObject.h"
 #include "Vector2D.h"
@@ -24,6 +28,7 @@ ChildBullet::ChildBullet(Player *target) : SDLGameObject() {
     m_active = true;
 }
 // Load pParams in the game
+// Note: the p before every parameters name means parameters
 void ChildBullet::load(const engine::LoaderParams* pParams) {
     m_velocity = engine::Vector2D(0, 0);
 
@@ -41,7 +46,7 @@ double ChildBullet::rotateTowards(engine::Vector2D pPosition) {
     return engine::Vector2D::angle(target, engine::Vector2D(0, 1));
 }
 // Loads the bullet on game and throws against the player.
-// Get as parameters the player velocity and the player position.
+// Get as parameters a velocity and a position.
 void ChildBullet::load(engine::Vector2D pVelocity, engine::Vector2D pPosition) {
     double angle = rotateTowards(pPosition);
 
@@ -91,7 +96,7 @@ void ChildBullet::checkCollision() {
            engine::Game::Instance().
                   getStateMachine()->currentState()->removeGameObject(this);
             INFO("Bullet collided");
-            INFO("PLAYER LOST THEengine::Game");
+            INFO("PLAYER LOST THE GAME");
             if (!m_player->getShieldActive())
                 m_player->setLife((m_player->getLife()) - 2);
             else if (m_player->getShieldActive())
@@ -99,7 +104,7 @@ void ChildBullet::checkCollision() {
         }
     }
 }
-
+// Need to be here because childBullet has an inheritance whith SDLGameObejct
 void ChildBullet::clean() {
     SDLGameObject::clean();
 }

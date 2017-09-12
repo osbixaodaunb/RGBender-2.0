@@ -1,4 +1,9 @@
 /*Copyright 2017 RGBender*/
+
+// Class: Player.h
+ 
+// Purpose: Responsable for creating player, handle inputs from keyboard 
+
 #ifndef INC_PLAYER_H_
 #define INC_PLAYER_H_
 

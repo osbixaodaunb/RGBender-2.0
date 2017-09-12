@@ -1,4 +1,9 @@
 /*Copyright 2017 RGBender*/
+
+// Class: Player.cpp
+
+// Purpose: Responsable for creating player, handle inputs from keyboard 
+
 #include "Player.h"
 #include "SDLGameObject.h"
 #include "LoaderParams.h"
@@ -111,7 +116,8 @@ void Player::update() {
 
   SDLGameObject::update();
 }
-// Update bullet state as Venomous, coders can't spell
+// Update bullet state as Venomous and update bullet color
+// Receive as a parameter a bool that will set the m_venemous instance variable
 void Player::setBulletVenemous(bool isVenemous) {
   m_bulletVenemous = isVenemous;
   bullet->setVenemous(isVenemous);
@@ -193,10 +199,11 @@ void Player::handleInput() {
 }
 
 bool inside(double angle, double value) {
-  return value > angle - 22.5 && value < angle + 22.5;
+  return value > angle - 22.5 && value < angle + 22.5; // 90 degrees divided by 4
 }
 // Changes player sprite according to the keyboard press.
 // It can handle all the directions the player can point to
+// Receive as a parameter the direction the player is moving as an integer
 void Player::changeSprite(int index) {
   m_flip = false;
   switch (index) {

@@ -1,4 +1,9 @@
 /*Copyright 2017 RGBender*/
+ 
+// Class: ChildBullet.h
+ 
+// Purpose: Handle all necessary actions to create and manipulate a childBullet.
+
 
 #ifndef INC_CHILDBULLET_H_
 #define INC_CHILDBULLET_H_
@@ -13,7 +18,6 @@
 #include <vector>
 
 class Player;
-// Handle all necessary actions to create and manipulate a childBullet
 class ChildBullet :  public engine::SDLGameObject{
  public:
     ChildBullet(Player* target);
@@ -57,7 +61,7 @@ class ChildBullet :  public engine::SDLGameObject{
 
 class ChildBulletCreator{
  public:
-    // Create a bullet with no time to live
+    // Verify if there is a bullet on bullets list so it can use to performe a shoot
     ChildBullet* create(Player *target) {
         for (auto bullet : bullets) {
             if (!bullet->isActive()) {
