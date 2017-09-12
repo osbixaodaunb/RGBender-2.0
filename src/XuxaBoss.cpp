@@ -26,6 +26,7 @@ int cont = 0;
 * The XuxaBoss constructor class consistis in load the sprites in screen
 * and add the initial states
 */
+
 XuxaBoss::XuxaBoss() : Enemy(){
     m_fireRate = 1;
     for(int i=1; i<10; i++){
@@ -194,9 +195,21 @@ void XuxaBoss::untiltChair(int placeholder){
     tilt_chair = false;
 }
 
+/**
+* This method activate XuxaBoss protection
+* @params placeholder Place holder number
+* @return nothing
+*/
+
 void XuxaBoss::protect(int placeholder){
     protection = true;
 }
+
+/**
+* This method update XuxaBoss shield status
+* @params param boolean value of visibility
+* @return nothing
+*/
 
 void XuxaBoss::shieldStatus(bool param){
     for(auto x : engine::Game::Instance().getStateMachine()->currentState()->getShieldObjects()){
@@ -206,6 +219,11 @@ void XuxaBoss::shieldStatus(bool param){
     //std::function<void(int)> callback = std::bind(&XuxaBoss::protect, this, 0);
     //engine::Game::Instance().addCooldown(new engine::Cooldown<int>(2000, callback, 0));
 }
+
+/**
+* This method manage XuxaBoss attack
+* @return nothing
+*/
 
 void XuxaBoss::attack(){
     Vector2D pos = m_player->getPosition();
@@ -223,6 +241,12 @@ void XuxaBoss::attack(){
     std::function<void(int)> callback = std::bind(&XuxaBoss::untilt, this, 0);
     engine::Game::Instance().addCooldown(new engine::Cooldown<int>(1000, callback, 0));
 }
+
+
+/**
+* This method manage XuxaBoss child attack
+* @return nothing
+*/
 
 void XuxaBoss::childAttack(){
     Vector2D pos = m_player->getPosition();
@@ -262,9 +286,19 @@ void XuxaBoss::childAttack(){
     //engine::Game::Instance().addCooldown(new engine::Cooldown<int>(3000, callback, 0));
 }
 
+/**
+* This method untilt XuxaBoss shield
+* @return nothing
+*/
+
 void XuxaBoss::untiltChild(int placeholder){
     tilt_child = false;
 }
+
+/**
+* This method consistis in manage the XuxaBoss attack by chair
+* @return nothing
+*/
 
 void XuxaBoss::throwChair(){
     Vector2D pos = m_player->getPosition();
@@ -282,6 +316,11 @@ void XuxaBoss::throwChair(){
     std::function<void(int)> callback = std::bind(&XuxaBoss::untiltChair, this, 0);
     engine::Game::Instance().addCooldown(new engine::Cooldown<int>(2500, callback, 0));
 }
+
+/**
+* This method clean XuxaBoss data
+* @return nothing
+*/
 
 void XuxaBoss::clean(){
     Enemy::clean();
