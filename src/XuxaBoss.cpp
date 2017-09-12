@@ -49,13 +49,16 @@ XuxaBoss::XuxaBoss() : Enemy(){
 
 /**
 * This method notices that XuxaBoss life is full
+* @return nothing
 */
+
 void XuxaBoss::fullLife(){
     INFO("Xuxa está com HP cheio!")
 }
 
 /**
 * This method notices that XuxaBoss is with half life
+* @return nothing
 */
 
 void XuxaBoss::halfLife(){
@@ -63,20 +66,40 @@ void XuxaBoss::halfLife(){
     INFO("Xuxa perdeu metade do HP!")
 }
 
+/**
+* This method notices that XuxaBoss is with quarter of life
+* @return nothing
+*/
+
 void XuxaBoss::quarterLife(){
     //TODO
     INFO("Xuxa perdeu 3/4 do HP!")
 }
 
+/**
+* This method crate XuxaBoss character
+* @params pParams Enemy params
+* @return nothing
+*/
+
 void XuxaBoss::load(const LoaderParams* pParams){
     Enemy::load(pParams);
     INFO("Created Xuxa boss");
 }
-
+/**
+* This method draw the enemy
+* @return nothing
+*/
 void XuxaBoss::draw(){
     Enemy::draw();
 }
 int presenting = 0;
+
+/**
+* This method update the frame of XuxaBoss
+* @return nothing
+*/
+
 void XuxaBoss::update(){
     //std::cout << "Xuxa bottom: " << getPosition().getY() + (getHeight() + getCollider().getHeight())/2 << std::endl;
 
@@ -151,9 +174,21 @@ void XuxaBoss::update(){
     Enemy::update();
 }
 
+/**
+* This method untilt something
+* @params placeholder Place holder number
+* @return nothing
+*/
+
 void XuxaBoss::untilt(int placeholder){
     tilt = false;
 }
+
+/**
+* This method untilt chair
+* @params placeholder Place holder number
+* @return nothing
+*/
 
 void XuxaBoss::untiltChair(int placeholder){
     tilt_chair = false;
