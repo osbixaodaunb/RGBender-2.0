@@ -1,9 +1,5 @@
 /*Copyright 2017 RGBender*/
 
-// Class: Player.cpp
-
-// Purpose: Responsable for creating player, handle inputs from keyboard 
-
 #include "Player.h"
 #include "SDLGameObject.h"
 #include "LoaderParams.h"
@@ -24,8 +20,10 @@
 #include <iostream>
 #include <cmath>
 
-// Load player's scenarios elements such as bullet, health, chairs and skill 
-// indicator
+/**
+* Load player's scenarios elements such as bullet, health, chairs and skill 
+* indicator
+*/
 Player::Player() : SDLGameObject() {
   m_fireRate = 500; // Time between shots in milliseconds
   m_isShieldActive = false;
@@ -48,11 +46,15 @@ Player::Player() : SDLGameObject() {
   m_life = 6;
   canMove = true;
 }
-// Load the pParams on the game
+/**
+* Load the pParams on the game
+*/
 void Player::load(const engine::LoaderParams* pParams) {
   SDLGameObject::load(pParams);
 }
-// Update player skill indicator, on screen.
+/**
+* Update player skill indicator, on screen.
+*/
 void Player::draw() {
   engine::TextureManager::Instance().draw("instance", 100, 600, 100, 100,
     engine::Game::Instance().getRenderer());
@@ -77,8 +79,10 @@ void Player::draw() {
   SDLGameObject::draw();
 }
 
-// Verify player status. 
-// If is not dead, if was hitten and if the player was using shild ween hitten
+/**
+* Verify player status. 
+* If is not dead, if was hitten and if the player was using shild ween hitten
+*/
 void Player::update() {
   if (m_life <= 0) {
     engine::Game::Instance().getStateMachine()->changeState(new GameOverState());
@@ -116,8 +120,10 @@ void Player::update() {
 
   SDLGameObject::update();
 }
-// Update bullet state as Venomous and update bullet color
-// Receive as a parameter a bool that will set the m_venemous instance variable
+/**
+* Update bullet state as Venomous and update bullet color
+* Receive as a parameter a bool that will set the m_venemous instance variable
+*/
 void Player::setBulletVenemous(bool isVenemous) {
   m_bulletVenemous = isVenemous;
   bullet->setVenemous(isVenemous);
@@ -129,8 +135,10 @@ void Player::setBulletVenemous(bool isVenemous) {
     engine::TheTextureManager::Instance().changeColorPixels(pixels, "RAG");
   }
 }
-// Set player's bullet to be poisoned for a period of time increasing the bullet
-// hit in 5 points and verify is bullet has hitted the boss
+/**
+* Set player's bullet to be poisoned for a period of time increasing the bullet
+* hit in 5 points and verify is bullet has hitted the boss
+*/
 void Player::setPoison() {
   if (bullet != NULL && bullet->getVenemous() && bullet->isActive()) {
     if (engine::Timer::Instance().step() <=
@@ -152,7 +160,9 @@ void Player::setPoison() {
 void Player::clean() {
   SDLGameObject::clean();
 }
-// Get user entries and perform actions such as movement and shoot
+/**
+* Get user entries and perform actions such as movement and shoot
+*/
 void Player::handleInput() {
   move();
 
@@ -201,9 +211,11 @@ void Player::handleInput() {
 bool inside(double angle, double value) {
   return value > angle - 22.5 && value < angle + 22.5; // 90 degrees divided by 4
 }
-// Changes player sprite according to the keyboard press.
-// It can handle all the directions the player can point to
-// Receive as a parameter the direction the player is moving as an integer
+/**
+* Changes player sprite according to the keyboard press.
+* It can handle all the directions the player can point to
+* @params  the direction the player is moving as an integer
+*/
 void Player::changeSprite(int index) {
   m_flip = false;
   switch (index) {
@@ -243,7 +255,9 @@ void Player::changeSprite(int index) {
     m_textureID += "attack";
   }
 }
-// Rotate the players to the mouse position
+/**
+* Rotate the players to the mouse position
+*/
 void Player::rotateTowards() {
   m_numFrames = 1;
   m_currentFrame = 0;
@@ -265,9 +279,11 @@ void Player::rotateTowards() {
   }
 }
 
-// Handle players movements according to keyboard press keeping 
-// he inside the screen, verify is the player is making a dash and 
-// his position on the screen
+/**
+* Handle players movements according to keyboard press keeping 
+* he inside the screen, verify is the player is making a dash and 
+* his position on the screen
+*/
 void Player::move() {
   engine::Vector2D movement(0, 0);
 
@@ -324,8 +340,10 @@ void Player::move() {
     }
   }
 }
-// set m_skillManager to a specific skill enter by the user 
-// and update bullet sprite
+/**
+* Set m_skillManager to a specific skill enter by the user 
+* and update bullet sprite
+*/
 void Player::useSkill() {
   if (engine::InputHandler::Instance().isKeyDown("1", 200)) {
     m_skillManager.setSkillPair(&m_pSkills, RED, &isFirstSkill);
@@ -361,8 +379,10 @@ void Player::useSkill() {
     }
   }
 }
-// Speed up player's speed on the direction he is moving at 15 times.
-// The dash time can only last 0,1 seconds
+/**
+* Speed up player's speed on the direction he is moving at 15 times.
+* The dash time can only last 0,1 seconds
+*/
 void Player::dash() {
   if (engine::InputHandler::Instance().isKeyDown("space", 1000)) {
     m_dashTime = engine::Timer::Instance().step();
@@ -374,7 +394,9 @@ void Player::dash() {
     m_isDashing = false;
   }
 }
-// Check if the player wasn't hit so he can move
+/**
+* Check if the player wasn't hit so he can move
+*/
 void Player::setPlayerMoves(bool value) {
   canMove = value;
 }

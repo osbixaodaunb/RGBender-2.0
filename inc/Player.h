@@ -1,8 +1,9 @@
 /*Copyright 2017 RGBender*/
 
-// Class: Player.h
- 
-// Purpose: Responsable for creating player, handle inputs from keyboard 
+/**
+* Player class header <Players.h>
+* <p>Responsable for creating player, handle inputs from keyboard.</p>
+*/
 
 #ifndef INC_PLAYER_H_
 #define INC_PLAYER_H_
@@ -19,36 +20,56 @@
 #include <SDL2/SDL.h>
 
 class Enemy;
-// Responsable for creating player, handle inputs from keyboard 
+/**
+* Responsable for creating player, handle inputs from keyboard 
+*/
 class Player : public engine::SDLGameObject {
  public:
   Player();
-  // Change the player sprinte according to the number passed as parameter
+  /**
+  * Change the player sprinte according to the number passed as parameter
+  * @params integer corresponting ta a direction
+  */
   void changeSprite(int);
-  // Load pParams on the game
+  /**
+  * Load pParams on the game
+  */
   void load(const engine::LoaderParams* pParams);
   void draw();
-  // Update player status
+  /**
+  * Update player status
+  */
   void update();
   void clean();
   typedef uint8_t*(*Callback) ();
   uint8_t* pixelColors;
-  // Defines time between shots in milliseconds
+  /**
+  * Defines time between shots
+  * @params integer fireRate in milliseconds
+  */
   void setFireRate(int fireRate) {
     m_fireRate = fireRate;
   }
-  // Defines player's life. Doesn't verify it is bigger then 6
+  /**
+  * Defines player's life. Doesn't verify it is bigger then 6i
+  * @params integer life
+  */
   void setLife(int life) {
     m_life = life;
   }
-  // return player's life
+  /**
+  * Get players life
+  * @return player's life
+  */
   int getLife() {
     return m_life;
   }
   Bullet* getPlayerBullet() {
     return bullet;
   }
-  // Increase how many damage a shield can take by 1
+  /**
+  * Increase how many damage a shield can take by 1
+  */
   void setShieldHits() {
     shieldHits++;
   }
@@ -61,13 +82,21 @@ class Player : public engine::SDLGameObject {
   bool getShieldActive() {
     return m_isShieldActive;
   }
-  // Make players bullet venomous
+  /**
+  * Make players bullet venomous
+  */
   void setBulletVenemous(bool isVenemous);
-  // Handle poisoned bullet
+  /**
+  * Handle poisoned bullet
+  */
   void setPoison();
-  // Define if the player can move or not
+  /**
+  * Define if the player can move or not
+  */
   void setPlayerMoves(bool);
-  // how much time the player will not move in milliseconds
+  /**
+  * how much time the player will not move in milliseconds
+  */
   int setStunTime(int value) {
     stunTime = value;
   }
@@ -85,14 +114,20 @@ class Player : public engine::SDLGameObject {
   int shieldHits = 0;
   bool m_bulletVenemous;
   int count = 0; // The time that attack sprite is activated
-  // Handle all possibles user inputs
+  /**
+  * Handle all possibles user inputs
+  */
   void handleInput();
   SkillManager m_skillManager = SkillManager(this);
   std::pair<default_inks, default_inks> m_pSkills;
   bool isFirstSkill = true;
-  // Take care of players position on screen
+  /**
+  * Take care of players position on screen
+  */
   void move();
-  // Points the player to the mouse
+  /**
+  * Points the player to the mouse
+  */
   void rotateTowards();
   void dash();
   void useSkill();

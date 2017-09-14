@@ -1,9 +1,5 @@
 /*Copyright 2017 RGBender*/
 
-// Class: ChildBullet.cpp
-
-// Purpose: Handle all necessary actions to create and manipulate a childBullet.
-
 #include "ChildBullet.h"
 #include "SDLGameObject.h"
 #include "Vector2D.h"
@@ -21,21 +17,31 @@
 ChildBullet::~ChildBullet() {
     INFO("REMOVE CHAIR BULLET");
 }
-//Create the childBullet with 5000 milliseconds to stay in the game
+
+/**
+* Create the childBullet with 5000 milliseconds to stay in the game
+* @params players instance
+*/
 ChildBullet::ChildBullet(Player *target) : SDLGameObject() {
     setPlayer(target);
     timeToLive = 5000; // in milliseconds
     m_active = true;
 }
-// Load pParams in the game
-// Note: the p before every parameters name means parameters
+
+/**
+* Load pParams in the game
+* Note: the p before every parameters name means parameters
+*/
 void ChildBullet::load(const engine::LoaderParams* pParams) {
     m_velocity = engine::Vector2D(0, 0);
 
     SDLGameObject::load(pParams);
 }
-// Calculates the angle of the childBullet according to the player position
-// As a parameter it recive the player position
+
+/**
+* Calculates the angle of the childBullet according to the player position
+* @params it recive the player position
+*/
 double ChildBullet::rotateTowards(engine::Vector2D pPosition) {
     engine::Vector2D target = engine::InputHandler::Instance().
                               getMousePosition() - pPosition;
@@ -45,8 +51,11 @@ double ChildBullet::rotateTowards(engine::Vector2D pPosition) {
 
     return engine::Vector2D::angle(target, engine::Vector2D(0, 1));
 }
-// Loads the bullet on game and throws against the player.
-// Get as parameters a velocity and a position.
+
+/**
+* Loads the bullet on game and throws against the player.
+* @params a velocity and a position.
+*/
 void ChildBullet::load(engine::Vector2D pVelocity, engine::Vector2D pPosition) {
     double angle = rotateTowards(pPosition);
 
@@ -67,8 +76,11 @@ void ChildBullet::load(engine::Vector2D pVelocity, engine::Vector2D pPosition) {
 void ChildBullet::draw() {
     SDLGameObject::draw();
 }
-// Remove the bullet from the game after a certain time period, define by the 
-// variable timeToLive, and calls a function to see if the player was hitted
+
+/**
+* Remove the bullet from the game after a certain time period, define by the 
+* variable timeToLive, and calls a function to see if the player was hitted
+*/ 
 void ChildBullet::update() {
     m_textureID = "childBullet";
     m_position += m_velocity;
@@ -81,9 +93,11 @@ void ChildBullet::update() {
 
     checkCollision();
 }
-//Verify if the bullet collided with the player,
-//if it has the bullet is removed from the game and 
-//the player loses 2 life points, if he was not using a shield.
+/**
+* Verify if the bullet collided with the player,
+* if it has the bullet is removed from the game and 
+* the player loses 2 life points, if he was not using a shield.
+*/
 void ChildBullet::checkCollision() {
     if (m_active) {
         engine::Vector2D pos = m_player->getPosition();
@@ -104,7 +118,9 @@ void ChildBullet::checkCollision() {
         }
     }
 }
-// Need to be here because childBullet has an inheritance whith SDLGameObejct
+/**
+* Need to be here because childBullet has an inheritance whith SDLGameObejct
+*/
 void ChildBullet::clean() {
     SDLGameObject::clean();
 }
