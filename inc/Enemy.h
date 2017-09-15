@@ -14,41 +14,41 @@
 
 class Enemy :  public engine::SDLGameObject{
  public:
-    Enemy();
+  Enemy();
 
-    virtual void load(const engine::LoaderParams* pParams);
-    virtual void draw();
-    virtual void update();
-    virtual void clean();
+  virtual void load(const engine::LoaderParams* pParams);
+  virtual void draw();
+  virtual void update();
+  virtual void clean();
 
-    typedef void(*Callback) ();
-    void takeDamage(int);
-    Uint32 getEnemyTime() {
-        return m_times;
-    }
+  typedef void(*Callback) ();
+  void takeDamage(int);
+  Uint32 getEnemyTime() {
+    return m_times;
+  }
 
-    void setEnemyTime(Uint32 time) {
-        m_times = engine::Timer::Instance().step() + time;
-    }
-    int getHealth() {
-        return m_actualHealth;
-    }
+  void setEnemyTime(Uint32 time) {
+    m_times = engine::Timer::Instance().step() + time;
+  }
+  int getHealth() {
+    return m_actualHealth;
+  }
 
  protected:
-    int m_totalHealth;
-    int m_actualHealth;
-    Uint32 m_times;
-    std::vector<Callback> m_states;
+  int m_totalHealth;
+  int m_actualHealth;
+  Uint32 m_times;
+  std::vector<Callback> m_states;
 
-    // void changeAttack();
-    void changeState();
+  // void changeAttack();
+  void changeState();
 };
 
 /*
 class EnemyCreator :  public engine::BaseCreator{
-    engine::GameObject* createGameObject() const{
-        return new Enemy();
-    }
+  engine::GameObject* createGameObject() const{
+    return new Enemy();
+  }
 };
 */
 
