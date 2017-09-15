@@ -1,4 +1,4 @@
-/*Copyright 2017 MIT*/
+/*Copyright 2017 RGBender*/
 #ifndef INC_PLAYSTATE_H_
 #define INC_PLAYSTATE_H_
 
@@ -9,7 +9,14 @@
 #include "Log.h"
 #include "XuxaBoss.h"
 #include <string>
+
 class PlayState : public engine::GameState {
+
+  /*
+  * Class where game logic is present, whole playable levels pass trough here
+  * and then are managed and controlled according to player fluxogram of actions
+  */
+
  public:
   virtual void update();
   virtual void render();
@@ -26,12 +33,16 @@ class PlayState : public engine::GameState {
   }
 
  private:
-  static const std::string s_playID;
   Player* m_player;
   XuxaBoss* m_boss;
-  int m_playerLife = 100;
   engine::Level *pLevel = NULL;
+
+  static const std::string s_playID;
+  int m_playerLife = 100;
+
   bool checkCollision(engine::SDLGameObject *p1, engine::SDLGameObject *p2);
 };
 
-#endif  // INC_PLAYSTATE_H_
+#endif
+
+// INC_PLAYSTATE_H_
