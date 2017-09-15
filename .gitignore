@@ -45,3 +45,15 @@ CTestTestfile.cmake
 
 CMakeFiles/*
 engine/CMakeFiles/*
+
+#Doxygen files
+Doxyfile
+html/
+latex/
+inc/Doxyfile
+inc/html/
+inc/latex/
+src/Doxyfile
+src/html/
+src/latex/
+build/

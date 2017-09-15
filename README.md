@@ -2,9 +2,9 @@
 
 [![Build Status](https://travis-ci.org/lucasBrilhante/RGBender.svg?branch=master)](https://travis-ci.org/lucasBrilhante/RGBender)
 
-## Equipe
+## Team
 
-### Programadores
+### Programmers
 
 * Felipe Osório
 
@@ -12,7 +12,7 @@
 
 * Harrison Pedro
 
-### Artistas
+### Artists
 
 * Fernanda Noronha
 
@@ -20,19 +20,19 @@
 
 * Marco Xavier
 
-### Músico
+### Musician
 
 * Henrique
 
-## Tutorial para executar o jogo
+## Tutorial to run the game
 
-* Digite make clean
+* Type make clean
 
-* Digite make
+* Type make
 
-* Digite make run
+* Type make run
 
-## Dependências
+## Dependencies
 
 * SDL2
 
@@ -40,98 +40,105 @@
 
 * zlib(latest)
 
-## Gênero
+To install the dependencies execute the script:
 
-É uma composição de Boss Fighting, top-down shooter
+```
+$ sh ./install.sh
+```
 
-## Resumo
+## Genre
 
-Protagonista viaja no tempo após pichar um símbolo e vai parar na renascença. Ele decide entrar para à história do mundo da arte como um grande pichador.
+It's a composition of Boss Fighting, top-down shooter
+
+## Resume
+
+Protagonist travels in time after spelling a symbol and will stop in the renaissance. He decides to enter into the history of the art world as a great Pichador.
 
 ## Gameplay
 
-Teclado: WASD + MOUSE + 1 2 3
+Keyboard: WASD + MOUSE + 1 2 3
 
-W: Move para cima
+W: Move up
 
-A: Move para esquerda
+A: Move  left
 
-S: Move para baixo
+S: Move down
 
-D: Move para direita
+D: Move right
 
-Espaço: Dash(na direção do movimento)
+Space: Dash(In the direction of the movement)
 
-Mouse cursor: Mira
+Mouse : Aim
 
-Botão mouse esquerdo: Atira
+Left button of mouse: Shoot
 
-1: Seleciona cor verde
 
-2: Seleciona cor vermelho
+1: Select green color
 
-3: Seleciona cor azul
+2: Select red color
 
-R: Invoke(Combina cores)
+3: Select blue color
 
-## Poderes
+R: Invoke(Mix colors)
 
-O personagem ataca utilizando de tintas, essas que podem ser combinadas como mostradas na figura abaixo:
+## Powers
+
+The character attacks using paint, which can be combined as shown in the figure below:
 
 ![Combinação de cores](http://i.imgur.com/DgjUGaQ.png)
 
-## Cenário
+## Scenario
 
-Itália Renascentista + Pós-Moderno 
+Italy Renaissance + Postmodern
 
-## Organização de elementos do jogo
+## Organization of game elements
 
-Vida estilo Zelda (corações)
+Life Zelda style (corações)
 
-Área comum: sala de treinamento, mapa simples de navegação entre boss e cutscenes; há um training dummy para testar habilidades
+Common area: training room, simple navigation map between boss and cutscenes; There is a training dummy to test skills
 
-## Condição de vitória e derrota
+## Win and lose condition
 
-Após derrotar os 3 bosses, o jogador terá ganhado o jogo. Durante essas lutas caso ele perca todas suas vidas, a personagem morre, e o jogador volta para o início da fase em que ele perdeu a luta.
+After defeating the 3 bosses, the player will have won the game. During these fights if he loses all his life, the character dies, and the player returns to the beginning of the phase in which he lost the fight.
 
 ## Bosses
 
 ### 1º Boss: Xuxa Freira
 
-Mecânicas:
+Mechanical:
 
 	Survival DPS Range
 
 	Padronizada
 
-	100% de vida = Cantoria, canta e crianças em correm em volta dela, servindo como escudo, fica invencível. Quando termina de cantar, à “nuvem” de criança dispersa
+	life at 100% = Ditty, sings and children running around her, serving as a shield, remains invincible. When he finishes singing, to the "cloud" of scattered child
 
-	50% de vida = Senta lá Claudia, começa a jogar os bancos da paróquia no jogador
+	life at 50% = Sits there Claudia, begins to play the parish banks in the player
 
-	25% de vida = enrage, berserk, joga criança no jogador
+	life at 25% = enrage, berserk, throws childrens in to player
 
-Ao morrer, dropa a tinta azul
+When dying, drop the blue ink
 
-### 2º Boss:  Davi, Estátua de Michelangelo, O cara mais bonito da cidade
+### 2º Boss:  Davi, Statue of Michelangelo, The most beautiful guy in town
 
-Mecânicas:
+Mechanical:
 
-	Lento
+	Slow
 
-	100%: Pular + ataque = area de dano, se cura (pode ser interrompido)
+	100%: Jump + attack = Area of damage, heals (can be stopped)
 
-	50%: Disassemble e ganha alcance (arranca um braço para bater em você)
+	50%: Disassemble and gain range (pluck an arm to hit you)
 
-	25%: Enrage (braço bumerangue)
+	25%: Enrage (Boomerang arm)
 
-Ao morrer dropa a tinta vermelha
+When dying drops the red paint
 
-### 3º Boss: Seu rival do futuro
+### 3º Boss: Your rival of the future
 
-Detalhes da batalha:
+Battle details:
 
-	Batalha no topo de um prédio
+	Battle on top of a building
 
-	Quebra 4ª parede (desliga tela, picha tela, picha mais rápido, etc.)
+        Break 4th wall (turn off screen, quill screen, quill faster, etc.)
 
-	Poder igual ao jogador, porém + refinado
+        Power equal to the player, but + refined

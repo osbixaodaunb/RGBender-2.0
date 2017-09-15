@@ -1,5 +1,11 @@
-#ifndef BOSS_BULLET_H
-#define BOSS_BULLET_H
+/*Copyright 2017 RGBender*/
+
+ // Class: BossBullet.h
+
+ // Purpose: This library have all methods needed to create and manipulate a bossBullet.
+
+#ifndef INC_BOSSBULLET_H_
+#define INC_BOSSBULLET_H_
 
 #include "SDLGameObject.h"
 #include "LoaderParams.h"
@@ -11,62 +17,80 @@
 
 class Player;
 
-class BossBullet : public engine::SDLGameObject{
-public:
-	BossBullet(Player* target);
-	~BossBullet();
+// Class constructor method
+class BossBullet : public engine::SDLGameObject {
+ public:
+  explicit BossBullet(Player* target);
+  ~BossBullet();
 
-	void load(engine::Vector2D pVelocity, engine::Vector2D pPosition);
-	void load(const engine::LoaderParams* pParams);
-	void draw();
-	void update();
-	void clean();
-	void checkCollision();
+  // Method that loads the velocity and the position of the bossBullet.
+  void load(engine::Vector2D pVelocity, engine::Vector2D pPosition);
 
-	bool isActive(){
-		return m_active;
-	}
+  // Method that load the parameter of the bossBullet.
+  void load(const engine::LoaderParams* pParams);
 
-	void setActive(bool p_active=true){
-		m_active = p_active;
-	}
+  // Method that draws the bossBullet into the scenario.
+  void draw();
 
-	void setPlayer(Player *target){
-		m_player = target;
-	}
+  // Method that updates the bossBullet frames.
+  void update();
 
-private:
-	double rotateTowards(engine::Vector2D);
+  // Method that removes the bossBullet from the screen.
+  void clean();
 
-	engine::Vector2D normal;
-	double originTime;
-	int m_moveSpeed;
+  // Method that checks if the bossBullet have collided with anything.
+  void checkCollision();
 
-	Player *m_player;
+  // Method that checks if the bossBullet is active.
+  bool isActive() {
+    return m_active;
+  }
 
-	Uint32 timeToLive;
-	Uint32 bornTime;
+  // Method that sets the bossBullet as active.
+  void setActive(bool p_active = true) {
+    m_active = p_active;
+  }
 
-	bool m_active;
+  // Method that sets the player as the target of the bossBullet shoot by the boss.
+  void setPlayer(Player *target) {
+    m_player = target;
+  }
+
+  // Signature of the rotateTowarsds method that sets the directions of the path of the bossBullet.
+ private:
+  double rotateTowards(engine::Vector2D);
+
+  engine::Vector2D normal;
+  double originTime;
+  int m_moveSpeed;
+
+  Player *m_player;
+
+  Uint32 timeToLive;
+  Uint32 bornTime;
+
+  bool m_active;
 };
 
-class BossBulletCreator{
-public:
-	BossBullet* create(Player *target){
-		for(auto bullet : bullets){
-			if(!bullet->isActive()){
-				bullet->setActive();
-				bullet->setPlayer(target);
-				return bullet;
-			}
-		}
-		INFO("A new bullet was created");
-		bullets.push_back(new BossBullet(target));
-		return bullets.back();
-	}
+// bossBullet creator class
+// Creates a bossBullet, check if it's active and, if it isn't, sets it as active
+class BossBulletCreator {
+ public:
+  BossBullet* create(Player *target) {
+    for (auto bullet : bullets) {
+      if (!bullet->isActive()) {
+        bullet->setActive();
+        bullet->setPlayer(target);
+        return bullet;
+      }
+    }
+    INFO("A new bullet was created");
+    bullets.push_back(new BossBullet(target));
+    return bullets.back();
+  }
 
-private:
-	std::vector<BossBullet*> bullets;
+ private:
+  std::vector<BossBullet*> bullets;
 };
 
-#endif
+#endif  // INC_BOSSBULLET_H_
