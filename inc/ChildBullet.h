@@ -1,4 +1,9 @@
-/*Copyright 2017 MIT*/
+/*Copyright 2017 RGBender*/
+
+/**
+* ChildBullet class header <ChildBullet.h>
+* <p>Handle all necessary actions to create and manipulate a childBullet.</p>
+*/
 
 #ifndef INC_CHILDBULLET_H_
 #define INC_CHILDBULLET_H_
@@ -13,23 +18,36 @@
 #include <vector>
 
 class Player;
-
 class ChildBullet :  public engine::SDLGameObject{
  public:
     ChildBullet(Player* target);
     ~ChildBullet();
 
     virtual void load(engine::Vector2D pVelocity, engine::Vector2D pPosition);
+    /**
+    * Load pParams on the game
+    */
     void load(const engine::LoaderParams* pParams);
     void draw();
+    /**
+    * Update bullet status
+    */
     void update();
     void clean();
+    /**
+    * Verify if there  was a collision with the player
+    */
     void checkCollision();
-
+    /**
+    * Return if bullet was created and can be used
+    */
     bool isActive() {
         return m_active;
     }
-
+    /**
+    * Set bullet activate state to True.
+    * @params a boolean with true as a default value
+    */
     void setActive(bool p_active=true) {
         m_active = p_active;
     }
@@ -39,8 +57,10 @@ class ChildBullet :  public engine::SDLGameObject{
     }
 
  private:
+    /**
+    * Aim bullet to the players position
+    */
     double rotateTowards(engine::Vector2D);
-
     int m_moveSpeed;
 
     Player *m_player;
@@ -53,6 +73,10 @@ class ChildBullet :  public engine::SDLGameObject{
 
 class ChildBulletCreator{
  public:
+    /**
+    * Verify if there is a bullet on bullets list so it can use to performe a shoot
+    * @params player instance
+    */
     ChildBullet* create(Player *target) {
         for (auto bullet : bullets) {
             if (!bullet->isActive()) {
