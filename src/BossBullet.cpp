@@ -1,4 +1,9 @@
-/*Copyright 2017 MIT*/
+/*Copyright 2017 RGBender*/
+
+ // Class: BossBullet.cpp
+
+ // Purpose: This class handles all the functionalities of the bossBullet.
+
 #include "BossBullet.h"
 #include "SDLGameObject.h"
 #include "Vector2D.h"
@@ -18,10 +23,13 @@
 
 // using namespace engine;
 
+// Tells when the bossBullet  is destroyed.
 BossBullet::~BossBullet() {
   INFO("Boss Bullet destroyed")
 }
 
+// Creates the bossBullet, sets the players as its target,
+// sets its lifespan and sets it as active.
 BossBullet::BossBullet(Player *target) : SDLGameObject() {
   std::srand(std::time(0));
 
@@ -32,6 +40,7 @@ BossBullet::BossBullet(Player *target) : SDLGameObject() {
   m_textureID = "bullet" + std::to_string(1 + std::rand()%9);
 }
 
+// Defines the size of the bossBullet and its velocity.
 void BossBullet::load(const engine::LoaderParams* pParams) {
   std::srand(std::time(0));
   m_velocity = engine::Vector2D(0, 0);
@@ -40,6 +49,7 @@ void BossBullet::load(const engine::LoaderParams* pParams) {
   SDLGameObject::load(pParams);
 }
 
+// Handles the movimentation of the bossBullet on the screen.
 double BossBullet::rotateTowards(engine::Vector2D pPosition) {
   engine::Vector2D target =
       engine::InputHandler::Instance().getMousePosition() - pPosition;
@@ -49,6 +59,8 @@ double BossBullet::rotateTowards(engine::Vector2D pPosition) {
 
   return engine::Vector2D::angle(target, engine::Vector2D(0, 1));
 }
+
+// Loads the bossBullet, its size, movespeed and movement angle,
 void BossBullet::load(engine::Vector2D pVelocity, engine::Vector2D pPosition) {
   std::srand(std::time(0));
   double m_angle = 0;
@@ -70,10 +82,12 @@ void BossBullet::load(engine::Vector2D pVelocity, engine::Vector2D pPosition) {
   originTime = engine::Timer::Instance().step();
 }
 
+// Draws the sprite of the bossBulet into de scenario.
 void BossBullet::draw() {
   SDLGameObject::draw();
 }
 
+// Updates the bossBullet state of the actual frame.
 void BossBullet::update() {
   engine::Vector2D tmp = m_velocity;
 
@@ -97,6 +111,8 @@ void BossBullet::update() {
   checkCollision();
 }
 
+// Checks if the bossBullet has collided with anything by checking the objects
+// hitbox positions.
 void BossBullet::checkCollision() {
   if (m_active) {
     engine::Vector2D pos = m_player->getPosition();
@@ -122,6 +138,7 @@ void BossBullet::checkCollision() {
   }
 }
 
+// Cleans the bossBullet from the scenario.
 void BossBullet::clean() {
   SDLGameObject::clean();
 }

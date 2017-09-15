@@ -1,4 +1,9 @@
-/*Copyright 2017 MIT*/
+/*Copyright 2017 RGBender*/
+
+ // Class: SkillManager.cpp
+
+ // Purpose: This class Handle the status of the skills of the player, such as cooldowns and skill pairs
+
 #include "SkillManager.h"
 #include "Log.h"
 #include "Player.h"
@@ -9,6 +14,7 @@
 #include <iostream>
 #include <functional>
 
+// Instaniates the skill with the color  depending of its infos,
 SkillManager::SkillManager(Player* p_player) {
   m_player = p_player;
   engine::TextureManager::Instance().load("assets/red_skill.png", "redskill",
@@ -41,6 +47,7 @@ SkillManager::SkillManager(Player* p_player) {
     m_coolDownMap[std::make_pair(GREEN, RED)] = false;
 }
 
+// Instanciates the red plus skill, sets its size, cooldowns and fire rate.
 uint8_t* SkillManager::redPlus() {
   INFO("RED PLUS");
 
@@ -67,6 +74,7 @@ uint8_t* SkillManager::redPlus() {
   return pixels;
 }
 
+// Instanciates the green plus skill, sets its size, if its venomous, color alternance, cooldowns and fire rate.
 uint8_t* SkillManager::greenPlus() {
   INFO("GREEN PLUS");
   uint8_t* pixels = new uint8_t[3];
@@ -105,6 +113,7 @@ uint8_t* SkillManager::greenPlus() {
   return pixels;
 }
 
+// Instanciates the blue plus skill and sets its size.
 uint8_t* SkillManager::bluePlus() {
   INFO("BLUE PLUS");
   uint8_t* pixels = new uint8_t[3];
@@ -114,6 +123,7 @@ uint8_t* SkillManager::bluePlus() {
   return pixels;
 }
 
+// Instanciates the purple skill and sets its size.
 uint8_t* SkillManager::purple() {
   INFO("PURPLE PLUS");
   uint8_t* pixels = new uint8_t[3];
@@ -123,6 +133,7 @@ uint8_t* SkillManager::purple() {
   return pixels;
 }
 
+// Instanciates the purple cyan and sets its size.
 uint8_t* SkillManager::cyan() {
   INFO("CYAN PLUS");
   uint8_t* pixels = new uint8_t[3];
@@ -132,6 +143,7 @@ uint8_t* SkillManager::cyan() {
   return pixels;
 }
 
+// Instanciates the brown skill, sets its size its shield properties and cooldowns.
 uint8_t* SkillManager::brown() {
   INFO("BROWN PLUS");
   engine::TextureManager::Instance().load(
@@ -163,6 +175,7 @@ uint8_t* SkillManager::brown() {
   return pixels;
 }
 
+// Instanciates the blank skill and sets its size.
 uint8_t* SkillManager::blank(int placeholder) {
   INFO("BLANK");
   uint8_t* pixels = new uint8_t[3];
@@ -176,6 +189,7 @@ uint8_t* SkillManager::blank(int placeholder) {
   return pixels;
 }
 
+// Handles the skillpair ckecking the position of the skills in the queue.
 void SkillManager::setSkillPair(std::pair<default_inks,
   default_inks>* combinedSkills, default_inks ink, bool* isFirst) {
   if (combinedSkills->first == BLANK || *isFirst == true) {
@@ -187,6 +201,8 @@ void SkillManager::setSkillPair(std::pair<default_inks,
   }
 }
 
+// Resets the cooldown timer of the skill in a very "migué" way.
+// Needs to be refactored.
 void SkillManager::resetCooldown(int index) {
   // Jeito bem migué de fazer, alguém pensa num jeito melhor ae
   switch (index) {
@@ -197,6 +213,7 @@ void SkillManager::resetCooldown(int index) {
   }
 }
 
+// Starts the cooldown timer of the skill, checking for the pair combination.
 void SkillManager::setCoolDownTrigger(
   std::pair<default_inks, default_inks> combinedSkills) {
   std::cout << combinedSkills.first << '\n';
@@ -212,6 +229,7 @@ void SkillManager::setCoolDownTrigger(
   }
 }
 
+// Receives the skill that is being used by the player.
 std::function<uint8_t*()> SkillManager::getSkill(
   std::pair<default_inks, default_inks> combinedSkills) {
   return m_skills[combinedSkills];
