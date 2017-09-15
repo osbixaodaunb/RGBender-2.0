@@ -1,4 +1,9 @@
-/*Copyright 2017 MIT*/
+/*Copyright 2017 RGBender*/
+
+// Class: Bullet (.cpp)
+
+// Purpose: This class provides functionalities for the bullet.
+
 #include "Bullet.h"
 #include "SDLGameObject.h"
 #include "Vector2D.h"
@@ -15,14 +20,12 @@
 #include "Childmaiden.h"
 
 
-// using namespace engine;
-
 Bullet::~Bullet() {
   INFO("Bullet destroyed")
 }
 
+// Create the boss.
 Bullet::Bullet(Enemy *p_boss) : SDLGameObject() {
-
   setBoss(p_boss);
 
   timeToLive = 1000;
@@ -30,14 +33,15 @@ Bullet::Bullet(Enemy *p_boss) : SDLGameObject() {
   m_venemous = false;
 }
 
-
+// Loads parameters of the bullet such as velocity.
 void Bullet::load(const engine::LoaderParams* pParams) {
   m_velocity = engine::Vector2D(0, 0);
 
   SDLGameObject::load(pParams);
 }
 
-
+// Make the bullet follow the position of the mouse cursor.
+// Returns the position of the mouse.
 double Bullet::rotateTowards(engine::Vector2D pPosition) {
   engine::Vector2D target = engine::InputHandler::Instance().
       getMousePosition() - pPosition;
@@ -47,6 +51,8 @@ double Bullet::rotateTowards(engine::Vector2D pPosition) {
 
   return engine::Vector2D::angle(target, engine::Vector2D(0, 1));
 }
+
+// Defines the size of the bullet and its velocity.
 void Bullet::load(engine::Vector2D pVelocity, engine::Vector2D pPosition) {
   double angle = rotateTowards(pPosition);
 
@@ -61,10 +67,12 @@ void Bullet::load(engine::Vector2D pVelocity, engine::Vector2D pPosition) {
   m_velocity = pVelocity.norm() * m_moveSpeed;
 }
 
+// Draws the bullet of the child in the game.
 void Bullet::draw() {
   SDLGameObject::draw();
 }
 
+// Updates the bullet frame.
 void Bullet::update() {
   // std::cout << "Bullet top: " << getPosition().getY() +
   // (getHeight() - getCollider().getHeight())/2 << std::endl;
@@ -74,26 +82,28 @@ void Bullet::update() {
     m_active = false;
     m_venemous = false;
     engine::Game::Instance().getStateMachine()->currentState()->
-        removeGameObject(this);
+      removeGameObject(this);
   }
   checkCollision();
 }
 
+// Updates the previous methods.
 void Bullet::checkCollision() {
+  // Shooting condition.
   if (m_active) {
     engine::Vector2D pos = m_boss->getPosition();
     engine::Vector2D thisPos = getPosition();
-
+    // Shield appearance condition
     for (auto obj : engine::Game::Instance().getStateMachine()->
-                  currentState()->getShieldObjects()) {
+      currentState()->getShieldObjects()) {
       if (engine::Physics::Instance().
-              checkCollision(dynamic_cast<SDLGameObject*>(obj),
-                  dynamic_cast<SDLGameObject*>(this))) {
+        checkCollision(dynamic_cast<SDLGameObject*>(obj),
+          dynamic_cast<SDLGameObject*>(this))) {
         if (dynamic_cast<Childmaiden*>(obj)->getVisibility()) {
           INFO("REMOVENDO BALA");
           m_active = false;
           engine::Game::Instance().getStateMachine()->
-              currentState()->removeGameObject(this);
+            currentState()->removeGameObject(this);
           INFO("Bullet collided with shield");
         } else {
           break;
@@ -101,13 +111,15 @@ void Bullet::checkCollision() {
       }
     }
 
+    // Condition in which the bullet hits the boss.
     if (engine::Physics::Instance().
-            checkCollision(dynamic_cast<SDLGameObject*>(m_boss),
-                dynamic_cast<SDLGameObject*>(this))) {
+      checkCollision(dynamic_cast<SDLGameObject*>(m_boss),
+        dynamic_cast<SDLGameObject*>(this))) {
       m_active = false;
       engine::Game::Instance().getStateMachine()->currentState()->
-          removeGameObject(this);
+        removeGameObject(this);
       m_boss->takeDamage(10);
+      // Condition in which the bullet with poison hits teh boss.
       if (m_venemous) {
         INFO("VENEMOUS TRUE");
         m_collided = true;
@@ -130,6 +142,7 @@ void Bullet::checkCollision() {
   }
 }
 
+// Cleans the bullet of the screen.
 void Bullet::clean() {
   SDLGameObject::clean();
 }
