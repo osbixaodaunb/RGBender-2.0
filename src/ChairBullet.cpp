@@ -88,33 +88,7 @@ void ChairBullet::update() {
 
 // Updates the previous methods checking if the child was hitted.
 void ChairBullet::checkCollision() {
-    // Shooting condition pointing to the child.
-    if (m_active) {
-        engine::Vector2D pos = m_player->getPosition();
-        engine::Vector2D thisPos = getPosition();
-
-        if (engine::Physics::Instance().
-            checkCollision(dynamic_cast<SDLGameObject*>(m_player),
-                           dynamic_cast<SDLGameObject*>(this))) {
-            m_active = false;
-           engine::Game::Instance().getStateMachine()->currentState()->
-                             removeGameObject(this);
-            INFO("Bullet collided");
-            INFO("PLAYER LOST THEengine::Game");
-            // If the child was hitted, she loses one life point.
-            if (!m_player->getShieldActive()) {
-                engine::AudioManager::Instance().
-                    playChunk("assets/sounds/chair.wav");
-                m_player->setLife((m_player->getLife()) - 1);
-                m_player->setPlayerMoves(false);
-                m_player->setStunTime(engine::Timer::Instance().step());
-            } else if (m_player->getShieldActive()) {
-                m_player->setShieldHits();
-            }
-
-            /*engine::Game::Instance().getStateMachine()->
-            changeState(newengine::GameOverState()); */
-=======
+  // Shooting condition pointing to the child.
   if (m_active) {
     engine::Vector2D pos = m_player->getPosition();
     engine::Vector2D thisPos = getPosition();
@@ -135,7 +109,6 @@ void ChairBullet::checkCollision() {
             m_player->setStunTime(engine::Timer::Instance().step());
         } else if (m_player->getShieldActive()) {
             m_player->setShieldHits();
->>>>>>> Fix indentation
         }
 
         /*engine::Game::Instance().getStateMachine()->
