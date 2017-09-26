@@ -21,7 +21,7 @@
 
 class Enemy;
 /**
-* Responsable for creating player, handle inputs from keyboard 
+* Responsable for creating player, handle inputs from keyboard
 */
 class Player : public engine::SDLGameObject {
  public:
@@ -97,7 +97,7 @@ class Player : public engine::SDLGameObject {
   /**
   * how much time the player will not move in milliseconds
   */
-  int setStunTime(int value) {
+  void setStunTime(int value) {
     stunTime = value;
   }
 

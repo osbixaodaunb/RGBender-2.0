@@ -115,7 +115,8 @@ void Player::update() {
     rotateTowards();
   }
 
-  if (shieldHits > 5 && m_isShieldActive) {
+  int max_shield_hits = 5;
+  if (shieldHits > max_shield_hits && m_isShieldActive) {
     engine::TextureManager::Instance().clearFromTextureMap("shield");
     shieldHits = ZERO;
     m_isShieldActive = false;
@@ -262,7 +263,7 @@ void Player::changeSprite(int index) {
   // seconds (0,3 seconds)and when the player hit the fire button.
   if (!canMove) {
     m_textureID += "stun";
-  } else if (engine::Timer::Instance().step() < count) {
+  } else if (int(engine::Timer::Instance().step()) < count) {
     m_textureID += "attack";
   }
 }
@@ -321,6 +322,7 @@ void Player::move() {
 
   dash();
 // Verify if the player is inside the screen
+
   if (getPosition().getY() + getHeight() >= 705) {
     if (m_velocity.getY() > 0)
       m_velocity.setY(0);
@@ -357,7 +359,7 @@ void Player::move() {
 */
 void Player::useSkill() {
   int skill_value = 200;
-  
+
   if (engine::InputHandler::Instance().isKeyDown("1", skill_value)) {
     m_skillManager.setSkillPair(&m_pSkills, RED, &isFirstSkill);
   }

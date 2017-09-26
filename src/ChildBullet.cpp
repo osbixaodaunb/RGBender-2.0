@@ -78,9 +78,9 @@ void ChildBullet::draw() {
 }
 
 /**
-* Remove the bullet from the game after a certain time period, define by the 
+* Remove the bullet from the game after a certain time period, define by the
 * variable timeToLive, and calls a function to see if the player was hitted
-*/ 
+*/
 void ChildBullet::update() {
     m_textureID = "childBullet";
     m_position += m_velocity;
@@ -95,14 +95,11 @@ void ChildBullet::update() {
 }
 /**
 * Verify if the bullet collided with the player,
-* if it has the bullet is removed from the game and 
+* if it has the bullet is removed from the game and
 * the player loses 2 life points, if he was not using a shield.
 */
 void ChildBullet::checkCollision() {
     if (m_active) {
-        engine::Vector2D pos = m_player->getPosition();
-        engine::Vector2D thisPos = getPosition();
-
         if (engine::Physics::Instance().
             checkCollision(dynamic_cast<SDLGameObject*>(m_player),
                            dynamic_cast<SDLGameObject*>(this))) {
@@ -124,4 +121,3 @@ void ChildBullet::checkCollision() {
 void ChildBullet::clean() {
     SDLGameObject::clean();
 }
-
