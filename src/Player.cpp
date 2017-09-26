@@ -134,9 +134,9 @@ void Player::setBulletVenemous(bool isVenemous) {
   bullet->setVenemous(isVenemous);
   if (isVenemous == false) {
     uint8_t* pixels = new uint8_t[3];
-    pixels[0] = 255;
-    pixels[1] = 255;
-    pixels[2] = 255;
+    pixels[0] = PIXEL_MAXIMUM_VALUE;
+    pixels[1] = PIXEL_MAXIMUM_VALUE;
+    pixels[2] = PIXEL_MAXIMUM_VALUE;
     engine::TheTextureManager::Instance().changeColorPixels(pixels, "RAG");
   }
 }
@@ -153,7 +153,7 @@ void Player::setPoison() {
       engine::Game::Instance().setScore(score + 5);
       engine::TextureManager::Instance().
       loadText(std::to_string(engine::Game::Instance().getScore()),
-               "assets/fonts/Lato-Regular.ttf", "score", {255, 255, 255}, 50,
+               "assets/fonts/Lato-Regular.ttf", "score", {PIXEL_MAXIMUM_VALUE, PIXEL_MAXIMUM_VALUE, PIXEL_MAXIMUM_VALUE}, 50,
                engine::Game::Instance().getRenderer());
       INFO(m_boss->getHealth());
     } else if (engine::Timer::Instance().step() >= m_boss->getEnemyTime()) {
@@ -216,6 +216,7 @@ void Player::handleInput() {
 bool inside(double angle, double value) {
   return value > angle - 22.5 && value < angle + 22.5; // 90 degrees divided by 4
 }
+
 /**
 * Changes player sprite according to the keyboard press.
 * It can handle all the directions the player can point to
@@ -256,7 +257,7 @@ void Player::changeSprite(int index) {
   // seconds (0,3 seconds)and when the player hit the fire button.
   if (!canMove) {
     m_textureID += "stun";
-  } else if (engine::Timer::Instance().step() < count) { 
+  } else if (engine::Timer::Instance().step() < count) {
     m_textureID += "attack";
   }
 }
@@ -285,8 +286,8 @@ void Player::rotateTowards() {
 }
 
 /**
-* Handle players movements according to keyboard press keeping 
-* he inside the screen, verify is the player is making a dash and 
+* Handle players movements according to keyboard press keeping
+* he inside the screen, verify is the player is making a dash and
 * his position on the screen
 */
 void Player::move() {
@@ -346,7 +347,7 @@ void Player::move() {
   }
 }
 /**
-* Set m_skillManager to a specific skill enter by the user 
+* Set m_skillManager to a specific skill enter by the user
 * and update bullet sprite
 */
 void Player::useSkill() {
