@@ -23,6 +23,9 @@
 #define PIXEL_MAXIMUM_VALUE 255
 #define POSITION_X_AXIS 100
 #define POSITION_Y_AXIS 100
+#define ONE 1
+#define ZERO 0
+#define ANGLE_VALUE 22.5
 /**
 * Load player's scenarios elements such as bullet, health, chairs and skill
 * indicator
@@ -89,7 +92,7 @@ void Player::draw() {
 * If is not dead, if was hitten and if the player was using shild ween hitten
 */
 void Player::update() {
-  if (m_life <= 0) {
+  if (m_life <= ZERO) {
     engine::Game::Instance().getStateMachine()->changeState(new GameOverState());
   }
   if (engine::Game::Instance().getStateMachine()->
@@ -114,7 +117,7 @@ void Player::update() {
 
   if (shieldHits > 5 && m_isShieldActive) {
     engine::TextureManager::Instance().clearFromTextureMap("shield");
-    shieldHits = 0;
+    shieldHits = ZERO;
     m_isShieldActive = false;
   }
   setPoison();
@@ -148,7 +151,7 @@ void Player::setPoison() {
   if (bullet != NULL && bullet->getVenemous() && bullet->isActive()) {
     if (engine::Timer::Instance().step() <=
         m_boss->getEnemyTime() && bullet->m_collided) {
-      m_boss->takeDamage(1);
+      m_boss->takeDamage(ONE);
       int score = engine::Game::Instance().getScore();
       engine::Game::Instance().setScore(score + 5);
       engine::TextureManager::Instance().
@@ -172,26 +175,28 @@ void Player::handleInput() {
   move();
 
   m_numFrames = 4;
-  m_currentFrame = 1;
+  m_currentFrame = ONE;
   // Move players towards mouse if he is stoped
   // If the player is moving a vector with all the posible directions is created
   // and then it checks the current direction of the player
-  if (m_velocity == engine::Vector2D(0, 0)) {
+  if (m_velocity == engine::Vector2D(ZERO, ZERO)) {
     rotateTowards();
   } else {
-    engine::Vector2D vec[] = {engine::Vector2D(0, -1),
-     engine::Vector2D(1, -1).norm(), engine::Vector2D(1, 0),
-     engine::Vector2D(1, 1).norm(), engine::Vector2D(0, 1),
-     engine::Vector2D(-1, 1).norm(),engine::Vector2D(-1, 0),
+    engine::Vector2D vec[] = {engine::Vector2D(ZERO, -1),
+     engine::Vector2D(ONE, -1).norm(), engine::Vector2D(ONE, ZERO),
+     engine::Vector2D(ONE, ONE).norm(), engine::Vector2D(ZERO, ONE),
+     engine::Vector2D(-1, ONE).norm(),engine::Vector2D(-1, ZERO),
      engine::Vector2D(-1, -1).norm()
     };
+
     for (int i = 0; i < 8; i++) {
       if (m_velocity.norm() == vec[i]) {
         changeSprite(i);
       }
     }
-    int tmp = m_currentFrame;
-    m_currentFrame = 1 + int(((SDL_GetTicks() / 100) % (m_numFrames - 1)));
+    int tick_rate = int(((SDL_GetTicks() / POSITION_X_AXIS) % (m_numFrames - ONE)));
+
+    m_currentFrame = ONE + tick_rate;
   }
   useSkill();
   // Verify if user is shooting and perform shoot
@@ -214,7 +219,7 @@ void Player::handleInput() {
 }
 
 bool inside(double angle, double value) {
-  return value > angle - 22.5 && value < angle + 22.5; // 90 degrees divided by 4
+  return value > angle - ANGLE_VALUE && value < angle + ANGLE_VALUE; // 90 degrees divided by 4
 }
 
 /**
@@ -351,18 +356,19 @@ void Player::move() {
 * and update bullet sprite
 */
 void Player::useSkill() {
-  if (engine::InputHandler::Instance().isKeyDown("1", 200)) {
+  int skill_value = 200;
+  
+  if (engine::InputHandler::Instance().isKeyDown("1", skill_value)) {
     m_skillManager.setSkillPair(&m_pSkills, RED, &isFirstSkill);
   }
 
-  if (engine::InputHandler::Instance().isKeyDown("2", 200)) {
+  if (engine::InputHandler::Instance().isKeyDown("2", skill_value)) {
     m_skillManager.setSkillPair(&m_pSkills, GREEN, &isFirstSkill);
   }
 
-  if (engine::InputHandler::Instance().isKeyDown("3", 200)) {
+  if (engine::InputHandler::Instance().isKeyDown("3", skill_value)) {
     m_skillManager.setSkillPair(&m_pSkills, BLUE, &isFirstSkill);
   }
-
 
   if (engine::InputHandler::Instance().isKeyDown("r", 100)) {
     std::map<std::pair<default_inks, default_inks>,
