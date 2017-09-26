@@ -20,19 +20,24 @@
 #include <iostream>
 #include <cmath>
 
+#define PIXEL_MAXIMUM_VALUE 255
+#define POSITION_X_AXIS 100
+#define POSITION_Y_AXIS 100
 /**
-* Load player's scenarios elements such as bullet, health, chairs and skill 
+* Load player's scenarios elements such as bullet, health, chairs and skill
 * indicator
 */
 Player::Player() : SDLGameObject() {
   m_fireRate = 500; // Time between shots in milliseconds
   m_isShieldActive = false;
   m_bulletVenemous = false;
+
   for (int i = 1; i < 7; i++) {
     engine::TextureManager::Instance().load("assets/player_health"
     + std::to_string(i) + ".png", "health" + std::to_string(i),
     engine::Game::Instance().getRenderer());
   }
+
   engine::TextureManager::Instance().load("assets/ataque_protagonista_preto.png"
     , "bullet", engine::Game::Instance().getRenderer());
   engine::TextureManager::Instance().load("assets/health.png", "health",
@@ -56,31 +61,31 @@ void Player::load(const engine::LoaderParams* pParams) {
 * Update player skill indicator, on screen.
 */
 void Player::draw() {
-  engine::TextureManager::Instance().draw("instance", 100, 600, 100, 100,
+  engine::TextureManager::Instance().draw("instance", 100, 600, POSITION_X_AXIS, POSITION_Y_AXIS,
     engine::Game::Instance().getRenderer());
   if (m_isShieldActive) {
     engine::TextureManager::Instance().draw("shield", getPosition().getX() - 17,
-      getPosition().getY() - 10, 110, 110,
+      getPosition().getY() - 10, POSITION_X_AXIS + 10, POSITION_Y_AXIS + 10,
       engine::Game::Instance().getRenderer());
-    engine::TextureManager::Instance().draw("brownskill", 110, 610, 80, 80,
+    engine::TextureManager::Instance().draw("brownskill", 110, 610, POSITION_X_AXIS - 20, POSITION_Y_AXIS - 20,
       engine::Game::Instance().getRenderer());
   }
   if (m_fireRate != 500) {
-    engine::TextureManager::Instance().draw("redskill", 110, 610, 80, 80,
+    engine::TextureManager::Instance().draw("redskill", 110, 610, POSITION_X_AXIS - 20, POSITION_Y_AXIS - 20,
       engine::Game::Instance().getRenderer());
   }
 
   if (bullet != NULL && bullet->getVenemous() == true) {
-    engine::TextureManager::Instance().draw("greenskill", 110, 610, 80, 80,
+    engine::TextureManager::Instance().draw("greenskill", 110, 610, POSITION_X_AXIS - 20, POSITION_Y_AXIS - 20,
       engine::Game::Instance().getRenderer());
   }
   engine::TextureManager::Instance().draw("health" + std::to_string(m_life), 1000,
-    620, 180, 80, engine::Game::Instance().getRenderer());
+    620, POSITION_X_AXIS + 80, POSITION_Y_AXIS - 20, engine::Game::Instance().getRenderer());
   SDLGameObject::draw();
 }
 
 /**
-* Verify player status. 
+* Verify player status.
 * If is not dead, if was hitten and if the player was using shild ween hitten
 */
 void Player::update() {
