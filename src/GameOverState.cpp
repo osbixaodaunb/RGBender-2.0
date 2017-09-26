@@ -1,3 +1,4 @@
+/*Copyright 2017 RGBender*/
 #include "GameOverState.h"
 #include "GameState.h"
 #include "Game.h"
@@ -12,53 +13,59 @@
 
 #include <iostream>
 
-using namespace engine;
-
 const std::string GameOverState::s_gameOverID = "GAMEOVER";
 
-void GameOverState::update(){
-	GameState::update();
+// Run on infite loop
+void GameOverState::update() {
+  GameState::update();
 }
 
-void GameOverState::render(){
-	GameState::render();
+// Renderize information on screen
+void GameOverState::render() {
+  GameState::render();
 }
 
-void GameOverState::s_gameOverToMain(){
-	Game::Instance().getStateMachine()->changeState(new MainMenuState());
+// Change to state of main menu after losing
+void GameOverState::s_gameOverToMain() {
+  engine::Game::Instance().getStateMachine() ->
+    changeState(new MainMenuState());
 }
 
-void GameOverState::s_restartPlay(){
-	Game::Instance().getStateMachine()->changeState(new PlayState());
+// Restart game. Play again instead of going to main menu
+void GameOverState::s_restartPlay() {
+  engine::Game::Instance().getStateMachine() -> changeState(new PlayState());
 }
 
-bool GameOverState::onEnter(){
-	StateParser stateParser;
-	stateParser.parseState("test.xml", s_gameOverID, &m_gameObjects, &m_textureIDList);
+// Routine to be executed before changing to state
+bool GameOverState::onEnter() {
+  engine::StateParser stateParser;
+  stateParser.parseState("test.xml", s_gameOverID, &m_gameObjects,
+    &m_textureIDList);
 
-	m_callbacks.push_back(0);
-	m_callbacks.push_back(s_gameOverToMain);
-	m_callbacks.push_back(s_restartPlay);
-	
-	// set the callbacks for menu items
-	setCallbacks(m_callbacks);
-	INFO("Entering GameOverState");
-	return true;
+  m_callbacks.push_back(0);
+  m_callbacks.push_back(s_gameOverToMain);
+  m_callbacks.push_back(s_restartPlay);
+
+  // Insert callbacks for menu items and objects
+  setCallbacks(m_callbacks);
+  INFO("Entering GameOverState");
+  return true;
 }
 
-bool GameOverState::onExit(){
-	GameState::onExit();
-	INFO("Exiting GameOverState");
-	return true;
+// Routine to be executed after exiting state
+bool GameOverState::onExit() {
+  GameState::onExit();
+  INFO("Exiting GameOverState");
+  return true;
 }
 
-void GameOverState::setCallbacks(const std::vector<Callback> &callbacks){
-	// go through game objects
-	for(auto gameObject : m_gameObjects){
-		// if they are of type MenuButton then assign a callback based on the id passed in from the file
-		if(dynamic_cast<MenuButton*>(gameObject)){
-			MenuButton* pButton = dynamic_cast<MenuButton*>(gameObject);
-			pButton->setCallback(callbacks[pButton->getCallbackID()]);
-		}
-	}
+void GameOverState::setCallbacks(const std::vector<Callback> &callbacks) {
+  // Go through game objects
+  for (auto gameObject : m_gameObjects) {
+    // Check for type menuButton, assign a callback based on the btn ID
+    if (dynamic_cast<MenuButton*>(gameObject)) {
+      MenuButton* pButton = dynamic_cast<MenuButton*>(gameObject);
+      pButton -> setCallback(callbacks[pButton -> getCallbackID()]);
+    }
+  }
 }

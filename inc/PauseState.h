@@ -1,5 +1,6 @@
-#ifndef PAUSE_STATE_H
-#define PAUSE_STATE_H
+/*Copyright 2017 RGBender*/
+#ifndef INC_PAUSESTATE_H_
+#define INC_PAUSESTATE_H_
 
 #include "GameObject.h"
 #include "MenuState.h"
@@ -7,25 +8,30 @@
 #include <string>
 #include <vector>
 
-class PauseState : public MenuState{
-public:
-	virtual void update();
-	virtual void render();
+class PauseState : public MenuState {
 
-	virtual bool onEnter();
-	virtual bool onExit();
+// Definition of the game state when player press pause button
 
-	virtual std::string getStateID() const {
-		return s_pauseID;
-	}
+ public:
+  virtual void update();
+  virtual void render();
 
-	static void s_pauseToMain();
-	static void s_resumePlay();
-private:
+  virtual bool onEnter();
+  virtual bool onExit();
 
-	virtual void setCallbacks(const std::vector<Callback>& callbacks);
+  virtual std::string getStateID() const {
+    return s_pauseID;
+  }
 
-	static const std::string s_pauseID;
+  static void s_pauseToMain();
+  static void s_resumePlay();
+
+ private:
+  virtual void setCallbacks(const std::vector<Callback>& callbacks);
+  static const std::string s_pauseID;
+
 };
 
 #endif
+
+// INC_PAUSESTATE_H_

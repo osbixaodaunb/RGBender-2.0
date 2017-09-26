@@ -1,3 +1,4 @@
+/*Copyright 2017 RGBender*/
 #include "MainMenuState.h"
 #include "MenuButton.h"
 #include "TextureManager.h"
@@ -12,55 +13,66 @@
 #include <iostream>
 #include "AudioManager.h"
 
-using namespace std;
-using namespace engine;
+// using namespace std;
+// using namespace engine;
 
-const string MainMenuState::s_menuID = "MENU";
+const std::string MainMenuState::s_menuID = "MENU";
 
-void MainMenuState::update(){
-	GameState::update();
+// Run on infite loop, update in each frame
+void MainMenuState::update() {
+  GameState::update();
 }
 
-void MainMenuState::render(){
-	GameState::render();
+// Renderize information on game screen
+void MainMenuState::render() {
+  GameState::render();
 }
 
-bool MainMenuState::onEnter(){
-	// parse the state
-	StateParser stateParser;
-	stateParser.parseState("test.xml", s_menuID, &m_gameObjects, &m_textureIDList);
-	AudioManager::Instance().playMusic("assets/sounds/xuxabeat.mp3");
-	m_callbacks.push_back(0); // pushback 0 callbackID starts with 1
-	m_callbacks.push_back(s_menuToPlay);
-	m_callbacks.push_back(s_exitFromMenu);
+// Routine to be executed before changing to state
+bool MainMenuState::onEnter() {
+  // Parse the state
+  engine::StateParser stateParser;
+  stateParser.parseState("test.xml", s_menuID, &m_gameObjects,
+    &m_textureIDList);
 
-	setCallbacks(m_callbacks);
-	INFO("Entering MainMenuState");
-	return true;
+  // Play background music
+  engine::AudioManager::Instance().playMusic("assets/sounds/xuxabeat.mp3");
+
+  // Callback to insert buttons in state
+  m_callbacks.push_back(0);
+  m_callbacks.push_back(s_menuToPlay);
+  m_callbacks.push_back(s_exitFromMenu);
+
+  setCallbacks(m_callbacks);
+  INFO("Entering MainMenuState");
+  return true;
 }
 
-void MainMenuState::setCallbacks(const vector<Callback> &callbacks){
-	// go through game objects
-	for(auto gameObject : m_gameObjects){
-		// if they are of type MenuButton then assign a callback based on the id passed in from the file
-		if(dynamic_cast<MenuButton*>(gameObject)){
-			MenuButton* pButton = dynamic_cast<MenuButton*>(gameObject);
-			pButton->setCallback(callbacks[pButton->getCallbackID()]);
-		}
-	}
+// Check for type MenuButton and assign a callback based on the id
+void MainMenuState::setCallbacks(const std::vector<Callback> &callbacks) {
+  // Go through game objects
+  for (auto gameObject : m_gameObjects) {
+    if (dynamic_cast<MenuButton*>(gameObject)) {
+      MenuButton* pButton = dynamic_cast<MenuButton*>(gameObject);
+      pButton->setCallback(callbacks[pButton->getCallbackID()]);
+    }
+  }
 }
 
-bool MainMenuState::onExit(){
-	GameState::onExit();
-	INFO("Exiting MainMenuState");
-	AudioManager::Instance().stop();
-	return true;
+// Routine to be executed after exiting state
+bool MainMenuState::onExit() {
+  GameState::onExit();
+  INFO("Exiting MainMenuState");
+  engine::AudioManager::Instance().stop();
+  return true;
 }
 
-void MainMenuState::s_menuToPlay(){
-	Game::Instance().getStateMachine()->changeState(new PlayState());
+// Change from scene menu to scene Play, where the game starts
+void MainMenuState::s_menuToPlay() {
+  engine::Game::Instance().getStateMachine() -> changeState(new PlayState());
 }
 
-void MainMenuState::s_exitFromMenu(){
-	Game::Instance().quit();
+// Quit game after pressing the respective buttons
+void MainMenuState::s_exitFromMenu() {
+  engine::Game::Instance().quit();
 }

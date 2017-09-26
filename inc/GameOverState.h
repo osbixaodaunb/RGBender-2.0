@@ -1,30 +1,36 @@
-#ifndef GAMEOVER_STATE_H
-#define GAMEOVER_STATE_H
+/*Copyright 2017 RGBender*/
+#ifndef INC_GAMEOVERSTATE_H_
+#define INC_GAMEOVERSTATE_H_
 
 #include "MenuState.h"
 
 #include <string>
 #include <vector>
 
-class GameOverState : public MenuState{
-public:
-	virtual void update();
-	virtual void render();
+class GameOverState : public MenuState {
 
-	virtual bool onEnter();
-	virtual bool onExit();
+// Definition of the game state after player dies or loses.
 
-	virtual std::string getStateID() const {
-		return s_gameOverID;
-	}
+ public:
+  virtual void update();
+  virtual void render();
 
-private:
-	virtual void setCallbacks(const std::vector<Callback>& callbacks);
+  virtual bool onEnter();
+  virtual bool onExit();
 
-	static void s_gameOverToMain();
-	static void s_restartPlay();
+  virtual std::string getStateID() const {
+    return s_gameOverID;
+  }
 
-	static const std::string s_gameOverID;
+ private:
+  virtual void setCallbacks(const std::vector<Callback>& callbacks);
+
+  static void s_gameOverToMain();
+  static void s_restartPlay();
+
+  static const std::string s_gameOverID;
 };
 
 #endif
+
+// INC_GAMEOVERSTATE_H_

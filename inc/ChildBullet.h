@@ -1,5 +1,12 @@
-#ifndef CHILD_BULLET_H
-#define CHILD_BULLET_H
+/*Copyright 2017 RGBender*/
+
+/**
+* ChildBullet class header <ChildBullet.h>
+* <p>Handle all necessary actions to create and manipulate a childBullet.</p>
+*/
+
+#ifndef INC_CHILDBULLET_H_
+#define INC_CHILDBULLET_H_
 
 #include "SDLGameObject.h"
 #include "LoaderParams.h"
@@ -11,61 +18,80 @@
 #include <vector>
 
 class Player;
+class ChildBullet :  public engine::SDLGameObject{
+ public:
+    ChildBullet(Player* target);
+    ~ChildBullet();
 
-class ChildBullet : public engine::SDLGameObject{
-public:
-	ChildBullet(Player* target);
-	~ChildBullet();
+    virtual void load(engine::Vector2D pVelocity, engine::Vector2D pPosition);
+    /**
+    * Load pParams on the game
+    */
+    void load(const engine::LoaderParams* pParams);
+    void draw();
+    /**
+    * Update bullet status
+    */
+    void update();
+    void clean();
+    /**
+    * Verify if there  was a collision with the player
+    */
+    void checkCollision();
+    /**
+    * Return if bullet was created and can be used
+    */
+    bool isActive() {
+        return m_active;
+    }
+    /**
+    * Set bullet activate state to True.
+    * @params a boolean with true as a default value
+    */
+    void setActive(bool p_active=true) {
+        m_active = p_active;
+    }
 
-	virtual void load(engine::Vector2D pVelocity, engine::Vector2D pPosition);
-	void load(const engine::LoaderParams* pParams);
-	void draw();
-	void update();
-	void clean();
-	void checkCollision();
+    void setPlayer(Player *target) {
+        m_player = target;
+    }
 
-	bool isActive(){
-		return m_active;
-	}
+ private:
+    /**
+    * Aim bullet to the players position
+    */
+    double rotateTowards(engine::Vector2D);
+    int m_moveSpeed;
 
-	void setActive(bool p_active=true){
-		m_active = p_active;
-	}
+    Player *m_player;
 
-	void setPlayer(Player *target){
-		m_player = target;
-	}
+    Uint32 timeToLive;
+    Uint32 bornTime;
 
-private:
-	double rotateTowards(engine::Vector2D);
-
-	int m_moveSpeed;
-
-	Player *m_player;
-
-	Uint32 timeToLive;
-	Uint32 bornTime;
-
-	bool m_active;
+    bool m_active;
 };
 
 class ChildBulletCreator{
-public:
-	ChildBullet* create(Player *target){
-		for(auto bullet : bullets){
-			if(!bullet->isActive()){
-				bullet->setActive();
-				bullet->setPlayer(target);
-				return bullet;
-			}
-		}
-		INFO("A new bullet was created");
-		bullets.push_back(new ChildBullet(target));
-		return bullets.back();
-	}
+ public:
+    /**
+    * Verify if there is a bullet on bullets list so it can use to performe a shoot
+    * @params player instance
+    */
+    ChildBullet* create(Player *target) {
+        for (auto bullet : bullets) {
+            if (!bullet->isActive()) {
+                bullet->setActive();
+                bullet->setPlayer(target);
+                return bullet;
+            }
+        }
+        INFO("A new bullet was created");
+        bullets.push_back(new ChildBullet(target));
+        return bullets.back();
+    }
 
-private:
-	std::vector<ChildBullet*> bullets;
+ private:
+    std::vector<ChildBullet*> bullets;
 };
 
-#endif
+#endif // INC_CHILDBULLET_H_

@@ -1,3 +1,4 @@
+/*Copyright 2017 RGBender*/
 #include "PauseState.h"
 #include "Game.h"
 #include "GameState.h"
@@ -9,58 +10,74 @@
 #include "Log.h"
 #include <iostream>
 #include <string>
+#include <vector>
 
-using namespace engine;
+// using namespace engine;
 
 const std::string PauseState::s_pauseID = "PAUSE";
 
-void PauseState::s_pauseToMain(){
-	Game::Instance().getStateMachine()->changeState(new MainMenuState());
+// Go from pause state to main menu state
+void PauseState::s_pauseToMain() {
+  engine::Game::Instance().getStateMachine() ->
+  changeState(new MainMenuState());
 }
 
-void PauseState::s_resumePlay(){
-	Game::Instance().getStateMachine()->popState();
+// Exit pause state and resume gameplay
+void PauseState::s_resumePlay() {
+  engine::Game::Instance().getStateMachine() -> popState();
 }
 
-void PauseState::update(){
-	GameState::update();
+// Run in infinite loop. Updates in each frame
+void PauseState::update() {
+  GameState::update();
 }
 
-void PauseState::render(){
-	GameState::render();
+// Renderize information o game screen
+void PauseState::render() {
+  GameState::render();
 }
 
-bool PauseState::onEnter(){
-	StateParser stateParser;
-	stateParser.parseState("test.xml", s_pauseID, &m_gameObjects, &m_textureIDList);
+// Routine to execute when pressing pause button and entering state
+bool PauseState::onEnter() {
+  engine::StateParser stateParser;
 
-	m_callbacks.push_back(0);
-	m_callbacks.push_back(s_resumePlay);
+  stateParser.parseState(
+   "test.xml",
+   s_pauseID,
+   &m_gameObjects,
+   &m_textureIDList
+ );
 
-	m_callbacks.push_back(s_pauseToMain);
-	setCallbacks(m_callbacks);
-	INFO("Entering PauseState");
+  m_callbacks.push_back(0);
+  m_callbacks.push_back(s_resumePlay);
 
-	return true;
+  m_callbacks.push_back(s_pauseToMain);
+  setCallbacks(m_callbacks);
+  INFO("Entering PauseState");
+
+  return true;
 }
 
-void PauseState::setCallbacks(const std::vector<Callback>& callbacks){
-	for(auto gameObject : m_gameObjects){
-		if(dynamic_cast<MenuButton*>(gameObject)){
-			MenuButton* pButton = dynamic_cast<MenuButton*>(gameObject);
-			pButton->setCallback(callbacks[pButton->getCallbackID()]);
-		}
-	}
+// Check for type MenuButton and assign a callback based on the id
+void PauseState::setCallbacks(const std::vector<Callback>& callbacks) {
+  // Go through game objects
+  for (auto gameObject : m_gameObjects) {
+    if (dynamic_cast<MenuButton*>(gameObject)) {
+      MenuButton* pButton = dynamic_cast<MenuButton*>(gameObject);
+      pButton -> setCallback(callbacks[pButton -> getCallbackID()]);
+    }
+  }
 }
 
-bool PauseState::onExit(){
-	GameState::onExit();
+// Routine to be executed after exiting state
+bool PauseState::onExit() {
+  GameState::onExit();
 
-	TextureManager::Instance().clearFromTextureMap("resumeButton");
-	TextureManager::Instance().clearFromTextureMap("menuButton");
+  // Clear textures and erase in screen
+  engine::TextureManager::Instance().clearFromTextureMap("resumeButton");
+  engine::TextureManager::Instance().clearFromTextureMap("menuButton");
 
-	InputHandler::Instance().reset();
-	INFO("Exiting PauseState");
-	return true;
-
+  engine::InputHandler::Instance().reset();
+  INFO("Exiting PauseState");
+  return true;
 }

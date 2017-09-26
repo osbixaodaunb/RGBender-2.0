@@ -1,5 +1,6 @@
-#ifndef PLAY_STATE_H
-#define PLAY_STATE_H
+/*Copyright 2017 RGBender*/
+#ifndef INC_PLAYSTATE_H_
+#define INC_PLAYSTATE_H_
 
 #include "GameState.h"
 #include "SDLGameObject.h"
@@ -7,29 +8,41 @@
 #include "Level.h"
 #include "Log.h"
 #include "XuxaBoss.h"
-class PlayState : public engine::GameState{
-public:
-	virtual void update();
-	virtual void render();
+#include <string>
 
-	virtual bool onEnter();
-	virtual bool onExit();
+class PlayState : public engine::GameState {
 
-	virtual std::string getStateID() const {
-		return s_playID;
-	}
+  /*
+  * Class where game logic is present, whole playable levels pass trough here
+  * and then are managed and controlled according to player fluxogram of actions
+  */
 
-	engine::Level* getLevel(){
-		return pLevel;
-	}
+ public:
+  virtual void update();
+  virtual void render();
 
-private:
-	static const std::string s_playID;
-	Player* m_player;
-	XuxaBoss* m_boss;
-	int m_playerLife = 100;
-	engine::Level *pLevel = NULL;
-	bool checkCollision(engine::SDLGameObject *p1, engine::SDLGameObject *p2);
+  virtual bool onEnter();
+  virtual bool onExit();
+
+  virtual std::string getStateID() const {
+    return s_playID;
+  }
+
+  engine::Level* getLevel() {
+    return pLevel;
+  }
+
+ private:
+  Player* m_player;
+  XuxaBoss* m_boss;
+  engine::Level *pLevel = NULL;
+
+  static const std::string s_playID;
+  int m_playerLife = 100;
+
+  bool checkCollision(engine::SDLGameObject *p1, engine::SDLGameObject *p2);
 };
 
 #endif
+
+// INC_PLAYSTATE_H_
